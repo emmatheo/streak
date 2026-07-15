@@ -2,37 +2,89 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>STREAK — call every moment. Real matches, real data.</title>
+<title>STREAK — call every moment. Real matches, real data. No wallet.</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0A0A0F;--card:#14141C;--line:#26263A;--lime:#CCFF00;--hot:#FF5C39;--blue:#4DA3FF;
+:root{--bg:#08080E;--card:#14141C;--line:#26263A;--lime:#CCFF00;--hot:#FF5C39;--blue:#4DA3FF;
+--vio:#9B5CFF;--mag:#E64BFF;--gold:#FFC94D;--gold2:#B87400;
 --txt:#F5F5FA;--mut:#8B8CA3;--disp:"Archivo Black",sans-serif;--font:"Inter",sans-serif}
 *{box-sizing:border-box;margin:0}
 body{background:var(--bg);color:var(--txt);font-family:var(--font);min-height:100vh;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:-30%;z-index:-1;pointer-events:none;
- background:radial-gradient(circle at 15% 12%,rgba(204,255,0,.09),transparent 40%),
- radial-gradient(circle at 85% 88%,rgba(255,92,57,.08),transparent 45%);
+ background:radial-gradient(circle at 15% 12%,rgba(155,92,255,.12),transparent 40%),
+ radial-gradient(circle at 85% 20%,rgba(230,75,255,.08),transparent 42%),
+ radial-gradient(circle at 80% 90%,rgba(204,255,0,.07),transparent 45%);
  animation:drift 20s ease-in-out infinite alternate}
-@keyframes drift{100%{transform:translate(-2%,3%) scale(1.05)}}
+@keyframes drift{100%{transform:translate(-2%,3%) scale(1.06)}}
 .wrap{max-width:520px;margin:0 auto;padding:0 16px 80px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- shared coin + orb motif ---------- */
+.orb{position:absolute;width:210px;height:210px;border-radius:50%;
+ background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.9),var(--mag) 22%,var(--vio) 55%,transparent 70%);
+ filter:blur(26px);opacity:.85;animation:breathe 3.2s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.14);opacity:1}}
+.coin{position:relative;width:112px;height:112px;border-radius:50%;
+ background:radial-gradient(circle at 38% 32%,#FFF0C2,var(--gold) 38%,var(--gold2) 78%,#7a4d00);
+ box-shadow:0 0 0 4px rgba(255,201,77,.25),0 0 34px rgba(255,201,77,.5),inset 0 -8px 20px rgba(0,0,0,.35),inset 0 8px 16px rgba(255,255,255,.4);
+ display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:40px;color:#7a4d00;
+ animation:flip3d 2.6s cubic-bezier(.5,0,.5,1) infinite;transform-style:preserve-3d}
+.coin::after{content:"";position:absolute;inset:9px;border-radius:50%;border:2px solid rgba(122,77,0,.5)}
+@keyframes flip3d{0%{transform:rotateY(0) scale(1)}50%{transform:rotateY(180deg) scale(1.04)}100%{transform:rotateY(360deg) scale(1)}}
+
+/* ---------- boot splash ---------- */
+#boot{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ gap:6px;padding:24px;text-align:center;background:radial-gradient(circle at 50% 38%,#151026,#08080E 62%);
+ transition:opacity .5s ease}
+#boot.gone{opacity:0;pointer-events:none}
+.stage{position:relative;width:230px;height:230px;display:flex;align-items:center;justify-content:center;margin-bottom:6px}
+.wordmark{font-family:var(--disp);font-size:46px;letter-spacing:3px;margin-top:4px;
+ text-shadow:0 0 24px rgba(155,92,255,.5)}
+.wordmark b{color:var(--lime)}
+.tag{color:#cfd0e6;font-size:14px;max-width:320px;line-height:1.5;margin-top:6px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.pills span{font-size:11px;font-weight:800;letter-spacing:.4px;padding:7px 12px;border-radius:999px;
+ background:rgba(255,255,255,.04);border:1px solid var(--line);color:#d7d8ea}
+.status{margin-top:22px;font-size:12px;color:var(--mut);min-height:18px;letter-spacing:.3px;
+ display:flex;align-items:center;gap:8px}
+.status .dot{width:8px;height:8px;border-radius:50%;background:var(--lime);animation:pulse 1.2s infinite}
+.status.warn .dot{background:var(--hot)}
+.enter{margin-top:20px;font-family:var(--disp);font-size:15px;letter-spacing:1px;padding:15px 30px;border:none;border-radius:14px;
+ background:var(--lime);color:#08080E;cursor:pointer;opacity:0;transform:translateY(8px);
+ transition:opacity .4s,transform .4s,filter .15s;pointer-events:none;box-shadow:0 8px 30px rgba(204,255,0,.28)}
+.enter.show{opacity:1;transform:none;pointer-events:auto;animation:rise 2s ease-in-out infinite}
+.enter:hover{filter:brightness(1.08)}
+@keyframes rise{50%{transform:translateY(-4px)}}
+@keyframes pulse{50%{opacity:.35}}
+
+/* ---------- header ---------- */
 header{padding:18px 0 6px;display:flex;align-items:center;gap:10px}
 .logo{font-family:var(--disp);font-size:24px;letter-spacing:1px}
 .logo b{color:var(--lime)}
 .sub{color:var(--mut);font-size:12px;flex:1}
-.badge{font-size:10px;font-weight:800;letter-spacing:1px;border-radius:6px;padding:3px 8px}
+.badge{font-size:10px;font-weight:800;letter-spacing:1px;border-radius:6px;padding:3px 8px;white-space:nowrap}
 .badge.rec{background:var(--card);color:var(--mut);border:1px solid var(--line)}
+.badge.demo{background:rgba(155,92,255,.16);color:#c9a9ff;border:1px solid rgba(155,92,255,.4)}
 .badge.live{background:#e5344a;color:#fff;animation:pulse 1.5s infinite}
-@keyframes pulse{50%{opacity:.6}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 h2{font-family:var(--disp);font-size:16px;letter-spacing:.5px;margin:18px 0 10px}
-.gcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:10px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:transform .15s,border-color .2s}
-.gcard:hover{transform:translateY(-2px);border-color:var(--lime)}
-.gcard .n{font-weight:800;font-size:15px}
+
+/* ---------- lobby ---------- */
+.gcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:10px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:transform .15s,border-color .2s,box-shadow .2s}
+.gcard:hover{transform:translateY(-2px);border-color:var(--lime);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.gcard .n{font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px}
 .gcard .m{color:var(--mut);font-size:12px;margin-top:3px}
 .gcard .play{font-family:var(--disp);color:var(--lime);font-size:13px}
-.empty{color:var(--mut);text-align:center;padding:50px 18px;line-height:1.8;font-size:13px}
+.tagpill{font-size:9px;font-weight:800;letter-spacing:.6px;padding:2px 6px;border-radius:5px;background:rgba(155,92,255,.16);color:#c9a9ff;border:1px solid rgba(155,92,255,.35)}
+.empty{color:var(--mut);text-align:center;padding:38px 18px;line-height:1.8;font-size:13px}
+.reconnect{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:30px 18px}
+.reconnect .mini{position:relative;width:120px;height:120px;display:flex;align-items:center;justify-content:center}
+.reconnect .mini .orb{width:120px;height:120px;filter:blur(20px);opacity:.6}
+.reconnect .mini .coin{width:64px;height:64px;font-size:22px;animation-duration:1.6s}
+.reconnect h3{font-family:var(--disp);font-size:15px}
+.reconnect p{color:var(--mut);font-size:12px;line-height:1.6;max-width:300px}
+.reconnect code{background:#000;padding:2px 7px;border-radius:6px;color:var(--lime);font-size:12px}
 
-/* game screen */
+/* ---------- game ---------- */
 #game{display:none}
 .hud{display:flex;gap:8px;margin:14px 0}
 .hudbox{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;text-align:center}
@@ -43,14 +95,23 @@ h2{font-family:var(--disp);font-size:16px;letter-spacing:.5px;margin:18px 0 10px
 .score{font-family:var(--disp);font-size:44px;letter-spacing:4px}
 .teams{display:flex;justify-content:space-between;color:var(--mut);font-size:12px;margin-top:4px;font-weight:700}
 .minute{color:var(--mut);font-size:11px;margin-top:8px}
-.q{font-family:var(--disp);font-size:17px;margin:20px 0 4px;line-height:1.35}
+.flipzone{height:96px;display:flex;align-items:center;justify-content:center;margin:12px 0 2px}
+.flipcoin{width:78px;height:78px;border-radius:50%;
+ background:radial-gradient(circle at 38% 32%,#FFF0C2,var(--gold) 38%,var(--gold2) 78%,#7a4d00);
+ box-shadow:0 0 26px rgba(255,201,77,.45),inset 0 -6px 16px rgba(0,0,0,.35),inset 0 6px 12px rgba(255,255,255,.4);
+ display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:30px;color:#7a4d00}
+.flipcoin.spin{animation:tumble .82s cubic-bezier(.3,0,.4,1)}
+@keyframes tumble{0%{transform:rotateY(0)}100%{transform:rotateY(1440deg)}}
+.q{font-family:var(--disp);font-size:16px;margin:2px 0 4px;line-height:1.35}
 .q b{color:var(--lime)}
 .choices{display:flex;gap:12px;margin-top:14px}
-.choice{flex:1;font-family:var(--disp);font-size:20px;padding:22px 10px;border-radius:16px;border:2px solid var(--line);background:var(--card);color:var(--txt);transition:transform .12s,border-color .15s;cursor:pointer}
+.choice{flex:1;font-family:var(--disp);font-size:20px;padding:22px 10px;border-radius:16px;border:2px solid var(--line);background:var(--card);color:var(--txt);transition:transform .12s,border-color .15s,box-shadow .15s;cursor:pointer}
 .choice:active{transform:scale(.96)}
 .choice.home{border-color:var(--blue)}.choice.away{border-color:var(--hot)}
-.choice:disabled{opacity:.5}
-.reveal{font-family:var(--disp);font-size:22px;margin-top:16px;min-height:30px}
+.choice.home:hover:not(:disabled){box-shadow:0 0 24px rgba(77,163,255,.3)}
+.choice.away:hover:not(:disabled){box-shadow:0 0 24px rgba(255,92,57,.3)}
+.choice:disabled{opacity:.45}
+.reveal{font-family:var(--disp);font-size:20px;margin-top:14px;min-height:28px}
 .reveal.ok{color:var(--lime);animation:pop .5s}
 .reveal.bad{color:var(--hot);animation:shake .4s}
 @keyframes pop{0%{transform:scale(.6);opacity:0}}
@@ -59,10 +120,10 @@ h2{font-family:var(--disp);font-size:16px;letter-spacing:.5px;margin:18px 0 10px
 .board.flash-bad{box-shadow:0 0 0 3px var(--hot) inset}
 .confetti{position:absolute;top:-10px;font-size:18px;animation:fall 1.2s linear forwards;pointer-events:none}
 @keyframes fall{to{transform:translateY(320px) rotate(360deg);opacity:0}}
-.endcard{background:linear-gradient(150deg,#131320,#181826);border:2px solid var(--lime);border-radius:20px;padding:24px;text-align:center;margin:14px 0}
+.endcard{background:linear-gradient(150deg,#151026,#181826);border:2px solid var(--lime);border-radius:20px;padding:24px;text-align:center;margin:14px 0}
 .endcard .big{font-family:var(--disp);font-size:46px;color:var(--lime)}
 .btn{font-family:var(--disp);font-size:14px;padding:14px 18px;border-radius:14px;border:none;cursor:pointer;margin:6px 4px 0}
-.btn.lime{background:var(--lime);color:#0A0A0F}
+.btn.lime{background:var(--lime);color:#08080E}
 .btn.ghost{background:transparent;color:var(--mut);border:1px solid var(--line)}
 .note{color:var(--mut);font-size:11px;margin-top:14px;line-height:1.6}
 .note a{color:var(--lime)}
@@ -70,6 +131,20 @@ h2{font-family:var(--disp);font-size:16px;letter-spacing:.5px;margin:18px 0 10px
 </style>
 </head>
 <body>
+
+<!-- animated boot splash: the first thing every player sees -->
+<div id="boot">
+  <div class="stage">
+    <div class="orb"></div>
+    <div class="coin">⚡</div>
+  </div>
+  <div class="wordmark">STRE<b>A</b>K</div>
+  <div class="tag">Higher-or-lower on live World Cup data. One tap per call, streak it up.</div>
+  <div class="pills"><span>⚡ No wallet</span><span>✦ No sign-up</span><span>▶ Just call it</span></div>
+  <div class="status" id="bootStatus"><span class="dot"></span><span id="bootMsg">Waking the feed…</span></div>
+  <button class="enter" id="enterBtn">TAP TO PLAY ▶</button>
+</div>
+
 <div class="wrap">
   <header>
     <span class="logo">STRE<b>A</b>K</span>
@@ -79,9 +154,10 @@ h2{font-family:var(--disp);font-size:16px;letter-spacing:.5px;margin:18px 0 10px
 
   <div id="lobby">
     <h2>PICK YOUR MATCH</h2>
-    <div id="list"><div class="empty">Loading real recorded matches…</div></div>
+    <div id="list"></div>
     <div class="note">Every game replays a <b>real match</b>, moment by moment, exactly as TxLINE streamed it —
-    goals, cards, corners, in order. No scripts, no fakes. Guess which side each moment favors. Build the streak.</div>
+    goals, cards, corners, in order. No scripts, no fakes. Call which side each next moment favors. Build the streak.
+    <b style="color:var(--lime)"> No wallet, no sign-up — ever.</b></div>
   </div>
 
   <div id="game">
@@ -94,6 +170,7 @@ h2{font-family:var(--disp);font-size:16px;letter-spacing:.5px;margin:18px 0 10px
       <div class="score" id="score">0 : 0</div>
       <div class="teams"><span>HOME</span><span>AWAY</span></div>
       <div class="minute" id="stamp"></div>
+      <div class="flipzone"><div class="flipcoin" id="flip">⚡</div></div>
       <div class="q">NEXT MOMENT — <b>who does it favor?</b></div>
       <div class="choices">
         <button class="choice home" id="pickH">HOME</button>
@@ -110,35 +187,82 @@ h2{font-family:var(--disp);font-size:16px;letter-spacing:.5px;margin:18px 0 10px
 <script>
 const $=s=>document.querySelector(s);
 let tl=null, idx=0, streak=0, best=Number(localStorage.getItem("streak_best")||0);
+let games=[], ready=false, entered=false, bootAt=Date.now();
 $("#best").textContent=best;
 
-async function lobby(){
+/* ---------- self-healing connection: never a dead "refresh manually" ---------- */
+function setBoot(msg,warn){$("#bootMsg").textContent=msg;$("#bootStatus").classList.toggle("warn",!!warn);}
+
+async function connect(attempt=0){
   try{
-    const games=await (await fetch("/api/games")).json();
-    if(!games.length){$("#list").innerHTML=`<div class="empty"><b style="color:var(--txt)">No recorded matches on this server yet.</b><br>
-      Games appear as real TxLINE matches are recorded — the server records automatically whenever a match is live.</div>`;return;}
-    $("#list").innerHTML=games.map(g=>`<div class="gcard" data-id="${g.fixtureId}">
-      <div><div class="n">Match #${g.fixtureId}</div><div class="m">${g.rounds} guessable moments · ${g.updates} live updates · real TxLINE recording</div></div>
-      <div class="play">PLAY ▶</div></div>`).join("");
-    document.querySelectorAll(".gcard").forEach(c=>c.onclick=()=>start(Number(c.dataset.id)));
-  }catch{$("#list").innerHTML=`<div class="empty">Server offline — start it, then refresh.</div>`;}
+    const res=await fetch("/api/games",{cache:"no-store"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    games=await res.json();
+    ready=true;
+    renderLobby();
+    setBoot(games.length?"Feed live — ready to play":"Connected");
+    $("#enterBtn").classList.add("show");
+    // reveal lobby once the splash has been seen for a beat (or on tap)
+    setTimeout(()=>{ if(!entered) enter(); }, Math.max(0, 1500-(Date.now()-bootAt)));
+  }catch(e){
+    const wait=Math.min(1000*Math.pow(1.6,attempt),8000);
+    setBoot("Reconnecting to the feed… (attempt "+(attempt+1)+")",true);
+    // if the very first connect fails, the server likely isn't up yet — keep the
+    // splash friendly and animated, and keep trying on our own. No manual refresh.
+    if(attempt===3) showReconnectHint();
+    setTimeout(()=>connect(attempt+1),wait);
+  }
 }
 
+function enter(){
+  if(entered) return; entered=true;
+  const b=$("#boot"); b.classList.add("gone");
+  setTimeout(()=>b.style.display="none",520);
+}
+$("#enterBtn").onclick=()=>{ if(ready) enter(); };
+
+/* ---------- lobby ---------- */
+function renderLobby(){
+  const badge=$("#mode");
+  if(games.some(g=>g.demo)){badge.className="badge demo";badge.textContent="DEMO MATCH";}
+  else{badge.className="badge rec";badge.textContent="RECORDED";}
+  if(!games.length){
+    $("#list").innerHTML=`<div class="empty"><b style="color:var(--txt)">No matches on this server yet.</b><br>
+      Games appear as real TxLINE matches are recorded — the server records automatically whenever a match is live.</div>`;
+    return;
+  }
+  $("#list").innerHTML=games.map(g=>`<div class="gcard" data-id="${g.fixtureId}">
+    <div><div class="n">${g.demo?"Demo Match":"Match #"+g.fixtureId}${g.demo?'<span class="tagpill">TRY IT</span>':''}</div>
+    <div class="m">${g.rounds} moments to call · ${g.updates} live updates${g.demo?" · scripted demo tape":" · real TxLINE recording"}</div></div>
+    <div class="play">PLAY ▶</div></div>`).join("");
+  document.querySelectorAll(".gcard").forEach(c=>c.onclick=()=>start(Number(c.dataset.id)));
+}
+
+function showReconnectHint(){
+  $("#list").innerHTML=`<div class="reconnect">
+    <div class="mini"><div class="orb"></div><div class="coin">⚡</div></div>
+    <h3>Warming up the feed…</h3>
+    <p>Hang tight — we'll connect automatically the moment the server answers. No refresh needed.</p>
+    <p>Hosting this locally? Run <code>npm start</code> in the project folder and this screen will spring to life on its own.</p>
+  </div>`;
+}
+
+/* ---------- game ---------- */
 async function start(id){
-  tl=await (await fetch("/api/timeline/"+id)).json();
-  // only steps that have an answer are rounds; we walk the full tape for scores
+  try{ tl=await (await fetch("/api/timeline/"+id,{cache:"no-store"})).json(); }
+  catch{ return; }
   idx=0;streak=0;$("#streak").textContent=0;$("#end").innerHTML="";$("#reveal").textContent="";
   $("#lobby").style.display="none";$("#game").style.display="block";
   advanceToNextRound(true);
 }
 
-function advanceToNextRound(first){
-  // move idx forward to just before the next answerable step
+function advanceToNextRound(){
   while(idx<tl.steps.length&&!tl.steps[idx].side)applyStep(tl.steps[idx++]);
   if(idx>=tl.steps.length){finish();return;}
   const total=tl.steps.filter(s=>s.side).length;
   const done=tl.steps.slice(0,idx).filter(s=>s.side).length;
   $("#prog").textContent=(done+1)+"/"+total;
+  $("#flip").textContent="⚡";
   setButtons(true);
 }
 function applyStep(s){
@@ -149,19 +273,23 @@ function setButtons(on){$("#pickH").disabled=!on;$("#pickA").disabled=!on;}
 
 function guess(side){
   setButtons(false);
-  const step=tl.steps[idx++]; // the answerable step
+  const step=tl.steps[idx++];
   const hit=step.side===side;
-  applyStep(step);
-  const label=step.kind.toUpperCase()+" — "+step.side.toUpperCase();
-  const r=$("#reveal");r.className="reveal "+(hit?"ok":"bad");
-  r.textContent=hit?("✓ "+label+"  +1"):("✗ "+label);
-  const b=$("#board");b.classList.remove("flash-ok","flash-bad");void b.offsetWidth;
-  b.classList.add(hit?"flash-ok":"flash-bad");
-  if(hit){streak++;$("#streak").textContent=streak;
-    if(streak>best){best=streak;localStorage.setItem("streak_best",best);$("#best").textContent=best;}
-    if(streak>0&&streak%3===0)confetti();
-  }else{streak=0;$("#streak").textContent=0;}
-  setTimeout(()=>advanceToNextRound(),900);
+  const f=$("#flip");f.classList.remove("spin");void f.offsetWidth;f.classList.add("spin");
+  setTimeout(()=>{
+    applyStep(step);
+    f.textContent=step.side==="home"?"H":"A";
+    const label=step.kind.toUpperCase()+" — "+step.side.toUpperCase();
+    const r=$("#reveal");r.className="reveal "+(hit?"ok":"bad");
+    r.textContent=hit?("✓ "+label+"  +1"):("✗ "+label);
+    const b=$("#board");b.classList.remove("flash-ok","flash-bad");void b.offsetWidth;
+    b.classList.add(hit?"flash-ok":"flash-bad");
+    if(hit){streak++;$("#streak").textContent=streak;
+      if(streak>best){best=streak;localStorage.setItem("streak_best",best);$("#best").textContent=best;}
+      if(streak>0&&streak%3===0)confetti();
+    }else{streak=0;$("#streak").textContent=0;}
+    setTimeout(()=>advanceToNextRound(),820);
+  },820);
 }
 $("#pickH").onclick=()=>guess("home");
 $("#pickA").onclick=()=>guess("away");
@@ -174,7 +302,7 @@ function finish(){
     <div class="big">${best} STREAK</div>
     <button class="btn lime" id="share">SHARE SCORE</button>
     <button class="btn ghost" id="again">PLAY ANOTHER</button>
-    <div class="note">Played on real recorded TxLINE World Cup data — every moment happened.</div>
+    <div class="note">Called on real recorded TxLINE World Cup data — every moment happened. No wallet needed to play.</div>
   </div>`;
   $("#share").onclick=()=>{navigator.clipboard.writeText(`I hit a ${best}-streak calling real World Cup moments on STREAK ⚡ every event is real TxLINE data. Beat me.`);
     const t=$("#toast");t.style.display="block";setTimeout(()=>t.style.display="none",1800);};
@@ -187,7 +315,8 @@ function confetti(){
     s.textContent=["⚡","🎉","🔥","⭐"][i%4];s.style.left=(5+Math.random()*90)+"%";
     s.style.animationDelay=(Math.random()*.3)+"s";b.appendChild(s);setTimeout(()=>s.remove(),1600);}
 }
-lobby();
+
+connect();
 </script>
 </body>
 </html>
