@@ -28,7 +28,29 @@ interface Step {
   side: "home" | "away" | null; // which side this update favored (the answer)
   kind: string;           // what happened, best-effort label (goal/corner/card/update)
 }
-interface Timeline { fixtureId: number; steps: Step[]; playable: number; }
+interface Timeline { fixtureId: number; steps: Step[]; playable: number; demo?: boolean; }
+
+// A scripted, wallet-free demo match so a fresh clone is instantly playable —
+// no live feed, no recordings, no setup. Mirrors the shape a real TxLINE
+// recording produces, so the game code can't tell it apart. Real recordings
+// (when present) always take precedence over this.
+function buildDemoTimeline(): Timeline {
+  const now = Date.now();
+  const script: [number, string, "home" | "away"][] = [
+    [3, "corner", "home"], [8, "corner", "away"], [12, "card", "away"],
+    [17, "goal", "home"], [23, "corner", "home"], [31, "corner", "away"],
+    [38, "card", "home"], [44, "goal", "away"], [52, "corner", "away"],
+    [58, "goal", "home"], [64, "corner", "home"], [71, "card", "away"],
+    [77, "corner", "away"], [84, "goal", "away"], [88, "corner", "home"],
+    [90, "goal", "home"],
+  ];
+  let home = 0, away = 0;
+  const steps: Step[] = script.map(([min, kind, side]) => {
+    if (kind === "goal") { if (side === "home") home++; else away++; }
+    return { t: now + min * 60_000, home, away, side, kind };
+  });
+  return { fixtureId: 2026, steps, playable: steps.length, demo: true };
+}
 
 // ---------- recording -> timeline ----------
 function buildTimelines(): Timeline[] {
@@ -83,10 +105,13 @@ const num = (x: any) => (x === undefined || x === null || isNaN(Number(x)) ? nul
 
 // ---------- server ----------
 async function main() {
-  const timelines = buildTimelines();
-  console.log(`[streak] ${timelines.length} playable recorded match(es); ` +
-    (timelines.length ? `best has ${timelines[0].playable} guessable moments` :
-     "add real TxLINE recordings (scores-*.jsonl) to data/recordings/"));
+  const recorded = buildTimelines();
+  // Fresh clone with no recordings? Ship a demo match so the app is playable
+  // the instant it boots — the whole point of a frictionless startup.
+  const timelines = recorded.length ? recorded : [buildDemoTimeline()];
+  console.log(`[streak] ${recorded.length} playable recorded match(es); ` +
+    (recorded.length ? `best has ${recorded[0].playable} guessable moments` :
+     "no recordings yet — serving the built-in demo match (add scores-*.jsonl to data/recordings/ for real ones)"));
 
   const app = express();
   app.use(express.static(path.join(process.cwd(), "src", "game", "public")));
@@ -97,6 +122,7 @@ async function main() {
   }));
   app.get("/api/games", (_q, r) => r.json(timelines.map((t) => ({
     fixtureId: t.fixtureId, rounds: t.playable, updates: t.steps.length,
+    demo: !!t.demo, liveFeed: liveStatus,
   }))));
   app.get("/api/timeline/:id", (q, r) => {
     const t = timelines.find((x) => x.fixtureId === Number(q.params.id));

@@ -35,15 +35,22 @@ click.
 - `GET /api/scores/stream` (SSE) — opens and resolves every round
 
 ## API
-`GET /health` · `GET /rounds` · `GET /leaderboard` · `GET /me/:name` ·
+The playable game (`npm start`) serves:
+`GET /health` · `GET /api/games` · `GET /api/timeline/:id` · `GET /live` (SSE)
+The live-rounds variant (`npm run live`) adds:
+`GET /rounds` · `GET /leaderboard` · `GET /me/:name` ·
 `POST /guess {name,fixtureId,dir}` · `POST /mint {name}` · `GET /events` (SSE)
 
 ## Run
 ```bash
 npm install
-# put a funded devnet wallet at keypair.json (or set KEYPAIR_JSON env)
-npm start          # http://localhost:8789
+npm start          # http://localhost:8789 — playable immediately
 ```
+That's it — **no wallet, no sign-up, no config**. With no recordings on disk the
+server ships a built-in **demo match** so the UI is playable the instant it
+boots; drop real TxLINE recordings in `data/recordings/*.jsonl` and they take
+over automatically. A wallet (`keypair.json` or `KEYPAIR_JSON` env) is only
+needed to *mint* a run on-chain — playing never touches it.
 
 ## Deploy (Render)
 Web Service → this repo → Build `npm install` → Start `npm start`.
