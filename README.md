@@ -52,6 +52,19 @@ boots; drop real TxLINE recordings in `data/recordings/*.jsonl` and they take
 over automatically. A wallet (`keypair.json` or `KEYPAIR_JSON` env) is only
 needed to *mint* a run on-chain — playing never touches it.
 
+## Go live on the real TxLINE feed
+Playing needs nothing, but to connect the **live** TxLINE World Cup feed (guest
+JWT → on-chain `subscribe` → `token/activate`, exactly per the TxLINE quickstart)
+you need a funded devnet wallet:
+```bash
+npm run genkey     # creates ./keypair.json and airdrops devnet SOL (free tier needs no TxL)
+npm run verify     # runs the full live path and prints PASS/FAIL with real data
+```
+A green `npm run verify` means the game's live feed authenticates and streams for
+real — `npm run live` then opens rounds from actual updates. `verify` needs
+outbound access to `txline-dev.txodds.com` and `api.devnet.solana.com`; some
+sandboxes block these by policy, in which case run it locally.
+
 ## Deploy (Render)
 Web Service → this repo → Build `npm install` → Start `npm start`.
 Env: `NETWORK=devnet`, `TXORACLE_IDL=./idls/txoracle.json`,

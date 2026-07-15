@@ -2,7 +2,7 @@
   "name": "streak-game",
   "version": "0.1.0",
   "type": "module",
-  "scripts": { "start": "tsx src/game/server.ts", "dev": "tsx src/game/server.ts", "live": "tsx src/game/main.ts" },
+  "scripts": { "start": "tsx src/game/server.ts", "dev": "tsx src/game/server.ts", "live": "tsx src/game/main.ts", "genkey": "tsx src/txline/genkey.ts", "verify": "tsx src/txline/verify.ts" },
   "dependencies": {
     "@coral-xyz/anchor": "^0.30.1",
     "@solana/spl-token": "^0.4.9",
