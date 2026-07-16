@@ -34,6 +34,7 @@ header{padding:18px 2px 8px;display:flex;align-items:center;gap:10px}
 .badge{font-size:9.5px;font-weight:900;letter-spacing:1.4px;border-radius:6px;padding:4px 8px;white-space:nowrap}
 .badge.live{background:#e5344a;color:#fff;animation:pulse 1.4s infinite}
 .badge.demo{background:rgba(255,194,75,.14);color:var(--gold);border:1px solid rgba(255,194,75,.35)}
+.badge.real{background:rgba(77,163,255,.16);color:var(--blue);border:1px solid rgba(77,163,255,.4)}
 @keyframes pulse{50%{opacity:.55}}
 .link{background:none;border:none;color:var(--mut);font-family:var(--font);font-weight:800;font-size:12px;cursor:pointer;padding:6px 8px;border-radius:8px}
 .link:hover{color:var(--lime)}
@@ -57,8 +58,18 @@ header{padding:18px 2px 8px;display:flex;align-items:center;gap:10px}
 .mini .b .k{color:var(--mut);font-size:10px;letter-spacing:1px;text-transform:uppercase}
 .mini .b .v{font-family:var(--disp);font-size:22px;margin-top:3px}
 .mini .b .v.lime{color:var(--lime)}
+
+.section{margin-top:18px}
+.section h3{font-size:11px;letter-spacing:1.4px;color:var(--mut);text-transform:uppercase;margin:0 2px 8px;display:flex;align-items:center;gap:8px}
+.gcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:8px;
+  display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:transform .12s,border-color .15s}
+.gcard:hover{transform:translateY(-2px);border-color:var(--blue)}
+.gcard .n{font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px}
+.gcard .m{color:var(--mut);font-size:11px;margin-top:3px}
+.gcard .play{font-family:var(--disp);color:var(--blue);font-size:13px}
+.emptyish{color:var(--mut);font-size:12px;line-height:1.6;background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:14px 16px}
 .how{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
-.how h3{font-size:11px;letter-spacing:1.4px;color:var(--mut);text-transform:uppercase;margin-bottom:8px}
+.how h3{margin-bottom:8px}
 .how ol{margin:0;padding-left:18px;color:var(--txt);font-size:13px;line-height:1.75;font-weight:600}
 .how ol b{color:var(--lime)}
 .foot{color:var(--mut);font-size:11px;line-height:1.6;text-align:center;margin-top:16px}
@@ -96,12 +107,17 @@ header{padding:18px 2px 8px;display:flex;align-items:center;gap:10px}
 .stage.flash-bad{box-shadow:0 0 0 3px var(--hot) inset;border-color:var(--hot)}
 .prompt{font-size:12px;color:var(--mut);font-weight:800;letter-spacing:.6px;text-transform:uppercase}
 .prompt b{color:var(--txt)}
-.statwrap{display:flex;align-items:center;justify-content:center;gap:14px;margin:6px 0 2px}
+.statwrap{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0 2px;min-height:80px}
 .bignum{font-family:var(--disp);font-size:74px;line-height:1;letter-spacing:1px}
 .unit{font-family:var(--disp);font-size:20px;color:var(--mut)}
 .spark{display:flex;align-items:flex-end;gap:3px;height:38px}
 .spark i{width:6px;background:var(--line);border-radius:3px;display:block;transition:height .3s,background .3s}
 .spark i.up{background:var(--lime)} .spark i.dn{background:var(--hot)}
+.realface{display:flex;align-items:center;justify-content:center;gap:16px}
+.realface .rf{display:flex;flex-direction:column;align-items:center;gap:2px}
+.realface .rf .rflag{font-size:48px;line-height:1}
+.realface .rf .rnm{font-size:11px;font-weight:800;color:var(--mut)}
+.realface .qmk{font-family:var(--disp);font-size:44px;color:var(--gold)}
 .tell{font-size:11px;color:var(--mut);font-weight:700;margin-top:2px;min-height:15px}
 .tell b{color:var(--gold)}
 
@@ -110,15 +126,15 @@ header{padding:18px 2px 8px;display:flex;align-items:center;gap:10px}
 .ring .txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:22px}
 
 .choices{display:flex;gap:12px;margin-top:8px}
-.choice{flex:1;font-family:var(--disp);font-size:20px;padding:20px 8px 16px;border-radius:16px;border:2px solid var(--line);
-  background:var(--card2);color:var(--txt);cursor:pointer;transition:transform .1s,border-color .15s,background .15s;line-height:1}
+.choice{flex:1;font-family:var(--disp);font-size:19px;padding:20px 8px 16px;border-radius:16px;border:2px solid var(--line);
+  background:var(--card2);color:var(--txt);cursor:pointer;transition:transform .1s,border-color .15s,background .15s;line-height:1.05}
 .choice .ar{font-size:26px;display:block;margin-bottom:4px}
 .choice.high{border-color:rgba(204,255,0,.4)} .choice.high .ar{color:var(--lime)}
 .choice.low{border-color:rgba(255,92,57,.4)} .choice.low .ar{color:var(--hot)}
+.choice.side-h{border-color:rgba(77,163,255,.45)} .choice.side-h .ar{color:var(--blue)}
+.choice.side-a{border-color:rgba(255,92,57,.45)} .choice.side-a .ar{color:var(--hot)}
 .choice:active{transform:scale(.95)}
-.choice.high:hover{background:rgba(204,255,0,.08)} .choice.low:hover{background:rgba(255,92,57,.08)}
-.choice.pick{transform:scale(1.02)} .choice.high.pick{background:rgba(204,255,0,.16);border-color:var(--lime)}
-.choice.low.pick{background:rgba(255,92,57,.16);border-color:var(--hot)}
+.choice.pick{transform:scale(1.02);background:rgba(255,255,255,.06)}
 .choice:disabled{opacity:.45;cursor:default}
 
 .reveal{font-family:var(--disp);font-size:20px;margin-top:12px;min-height:26px}
@@ -131,7 +147,6 @@ header{padding:18px 2px 8px;display:flex;align-items:center;gap:10px}
 
 .controls{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
 
-/* ---------- end card ---------- */
 .endcard{background:linear-gradient(150deg,#141426,#1a1a2c);border:2px solid var(--lime);border-radius:22px;
   padding:24px 20px;text-align:center;margin-top:10px;animation:rise .4s ease}
 .endcard .ft{font-weight:900;color:var(--mut);letter-spacing:2px;font-size:11px}
@@ -148,9 +163,7 @@ header{padding:18px 2px 8px;display:flex;align-items:center;gap:10px}
 .mintnote{color:var(--mut);font-size:11px;margin-top:12px;line-height:1.6}
 .mintnote a{color:var(--lime);font-weight:800}
 
-/* ---------- leaderboard sheet ---------- */
-.sheet{position:fixed;inset:0;background:rgba(4,4,10,.72);backdrop-filter:blur(6px);z-index:60;display:none;
-  align-items:flex-end;justify-content:center}
+.sheet{position:fixed;inset:0;background:rgba(4,4,10,.72);backdrop-filter:blur(6px);z-index:60;display:none;align-items:flex-end;justify-content:center}
 .sheet.open{display:flex}
 .sheetbox{width:100%;max-width:540px;background:var(--card);border:1px solid var(--line);border-radius:22px 22px 0 0;
   padding:20px 18px calc(26px + env(safe-area-inset-bottom));max-height:82vh;overflow:auto;animation:slideup .3s ease}
@@ -185,27 +198,32 @@ header{padding:18px 2px 8px;display:flex;align-items:center;gap:10px}
   <div id="start">
     <div class="hero">
       <div class="kick">HIGHER<br><span class="lo">or</span> <span class="hi">LOWER?</span></div>
-      <p>A match is live. The stat is on the board. Call the next update — build the longest streak you can. One wrong call and you're back to zero.</p>
+      <p>A match is live. Call the next moment — build the longest streak you can. One wrong call and you're back to zero.</p>
       <input class="name" id="name" maxlength="24" placeholder="Enter your name" autocomplete="off" spellcheck="false">
-      <button class="cta" id="play">▶  KICK OFF</button>
+      <button class="cta" id="playDemo">▶  PLAY THE DEMO MATCH</button>
       <div class="mini">
         <div class="b"><div class="k">Your best</div><div class="v lime" id="myBest">0</div></div>
         <div class="b"><div class="k">Top streak</div><div class="v" id="topStreak">—</div></div>
       </div>
     </div>
 
-    <div class="how">
+    <div class="section" id="realSection">
+      <h3><span class="badge real">REAL MATCHES</span> from the TxLINE feed</h3>
+      <div id="gameList"><div class="emptyish">Loading recorded matches…</div></div>
+    </div>
+
+    <div class="how section">
       <h3>How a round works</h3>
       <ol>
-        <li>A live stat is on the board — say <b>57% possession</b>.</li>
-        <li>Call the next feed update: <b>HIGHER</b> or <b>LOWER</b>?</li>
-        <li>Right → your streak grows and your multiplier climbs.</li>
-        <li>Wrong → streak resets. Play the whole match, chase your best.</li>
+        <li><b>Demo:</b> a live stat is on the board — call it <b>HIGHER</b> or <b>LOWER</b>.</li>
+        <li><b>Real match:</b> after each TxLINE update, call who takes the next moment — <b>HOME</b> or <b>AWAY</b>.</li>
+        <li>Right → streak grows and your multiplier climbs. Wrong → back to zero.</li>
+        <li>Top streaks can be minted on Solana, so the leaderboard is provable.</li>
       </ol>
     </div>
     <div class="foot">
-      <span id="modeNote"><b>DEMO MATCH</b> — a simulated live feed so you can play any time.</span><br>
-      Live matches run on the real <b>TxLINE</b> World Cup feed, and top streaks can be minted on-chain.
+      <b>DEMO</b> is a simulated feed so you can play any time. <b>REAL MATCHES</b> replay actual TxLINE
+      recordings, moment by moment — a live match is recorded automatically and appears here.
     </div>
   </div>
 
@@ -232,10 +250,15 @@ header{padding:18px 2px 8px;display:flex;align-items:center;gap:10px}
     </div>
 
     <div class="stage" id="stage">
-      <div class="prompt"><b id="statTeam">Spain</b> · <span id="statName">Possession</span> — call the next update</div>
+      <div class="prompt" id="prompt"><b>Spain</b> · Possession — call the next update</div>
       <div class="statwrap">
         <div class="spark" id="spark"></div>
-        <div><span class="bignum" id="bignum">0</span><span class="unit" id="unit">%</span></div>
+        <div id="numBox"><span class="bignum" id="bignum">0</span><span class="unit" id="unit">%</span></div>
+        <div class="realface" id="realBox" style="display:none">
+          <div class="rf"><span class="rflag" id="rfHome">🏳️</span><span class="rnm" id="rfHomeN">HOME</span></div>
+          <span class="qmk">?</span>
+          <div class="rf"><span class="rflag" id="rfAway">🏳️</span><span class="rnm" id="rfAwayN">AWAY</span></div>
+        </div>
       </div>
       <div class="tell" id="tell"></div>
 
@@ -247,8 +270,8 @@ header{padding:18px 2px 8px;display:flex;align-items:center;gap:10px}
       </div>
 
       <div class="choices">
-        <button class="choice high" id="pickHi"><span class="ar">▲</span>HIGHER</button>
-        <button class="choice low" id="pickLo"><span class="ar">▼</span>LOWER</button>
+        <button class="choice high" id="pickA"><span class="ar" id="arA">▲</span><span id="labA">HIGHER</span></button>
+        <button class="choice low" id="pickB"><span class="ar" id="arB">▼</span><span id="labB">LOWER</span></button>
       </div>
       <div class="reveal" id="reveal"></div>
     </div>
@@ -277,217 +300,222 @@ header{padding:18px 2px 8px;display:flex;align-items:center;gap:10px}
 <script>
 "use strict";
 const $=s=>document.querySelector(s);
-const R=(n)=>Math.floor(Math.random()*n);
+const R=n=>Math.floor(Math.random()*n);
 const pick=a=>a[R(a.length)];
 
-/* ---------- teams ---------- */
+/* ---------- teams / flags ---------- */
 const TEAMS=[
  {n:"Spain",f:"🇪🇸"},{n:"Germany",f:"🇩🇪"},{n:"Brazil",f:"🇧🇷"},{n:"France",f:"🇫🇷"},
  {n:"Argentina",f:"🇦🇷"},{n:"Portugal",f:"🇵🇹"},{n:"England",f:"🇬🇧"},{n:"Netherlands",f:"🇳🇱"},
  {n:"Japan",f:"🇯🇵"},{n:"Morocco",f:"🇲🇦"},{n:"Croatia",f:"🇭🇷"},{n:"USA",f:"🇺🇸"},
  {n:"Italy",f:"🇮🇹"},{n:"Belgium",f:"🇧🇪"},{n:"Mexico",f:"🇲🇽"},{n:"Uruguay",f:"🇺🇾"},
 ];
-/* stats we play on. Each fluctuates so HIGHER/LOWER is a real call with a readable tell. */
+const FLAG=Object.fromEntries(TEAMS.map(t=>[t.n.toLowerCase(),t.f]));
+const flagFor=n=>FLAG[String(n||"").toLowerCase()]||"🏳️";
 const STATS=[
- {name:"Possession",unit:"%",lo:36,hi:66,step:3,evt:"pressure"},
- {name:"Shots in last 10'",unit:"",lo:0,hi:9,step:2,evt:"pressure"},
- {name:"Attack momentum",unit:"",lo:20,hi:88,step:8,evt:"pressure"},
+ {name:"Possession",unit:"%",lo:36,hi:66,step:3},
+ {name:"Shots in last 10'",unit:"",lo:0,hi:9,step:2},
+ {name:"Attack momentum",unit:"",lo:20,hi:88,step:8},
 ];
 
-/* ---------- build a full "match tape" ---------- */
-function buildMatch(){
-  let [home,away]=[pick(TEAMS),pick(TEAMS)];
-  while(away.n===home.n) away=pick(TEAMS);
-  const focus=Math.random()<.5?"home":"away";
-  const stat=pick(STATS);
-  const N=18+R(6);                 // rounds this match
-  // fluctuating series with momentum (the tell): attentive players beat ~50/50.
-  let v=Math.round((stat.lo+stat.hi)/2)+(-3+R(7));
-  let mom=0;
+/* ---------- demo match tape (Higher/Lower) ---------- */
+function buildDemo(){
+  let [home,away]=[pick(TEAMS),pick(TEAMS)]; while(away.n===home.n) away=pick(TEAMS);
+  const focus=Math.random()<.5?"home":"away", stat=pick(STATS), N=18+R(6);
+  let v=Math.round((stat.lo+stat.hi)/2)+(-3+R(7)), mom=0;
   const series=[clamp(v,stat.lo,stat.hi)];
-  for(let i=0;i<N;i++){
-    mom=mom*0.55 + (Math.random()*2-1)*stat.step;                // persistent drift
-    const revert=(( (stat.lo+stat.hi)/2 )-v)*0.10;               // pull to the mean
-    v=Math.round(v+mom+revert+(Math.random()*2-1));
+  for(let k=0;k<N;k++){
+    mom=mom*0.55+(Math.random()*2-1)*stat.step;
+    v=Math.round(v+mom+(((stat.lo+stat.hi)/2)-v)*0.10+(Math.random()*2-1));
     v=clamp(v,stat.lo,stat.hi);
-    if(v===series[series.length-1]) v+=mom>=0?1:-1;              // never a tie
-    v=clamp(v,stat.lo,stat.hi);
-    series.push(v);
+    if(v===series[series.length-1]) v+=mom>=0?1:-1;
+    series.push(clamp(v,stat.lo,stat.hi));
   }
-  // scoreline + flavour events over ~90'
-  let hg=0,ag=0,minute=1;
-  const rounds=[];
-  const evPool=["corner","shot","card","chance","save","free kick"];
-  for(let i=0;i<N;i++){
-    minute=Math.min(90, minute + 3 + R(5));
-    let ev=null;
-    const roll=Math.random();
+  let hg=0,ag=0,minute=1; const rounds=[]; const evPool=["corner","shot","free kick","chance","save"];
+  for(let k=0;k<N;k++){
+    minute=Math.min(90,minute+3+R(5)); let ev=null; const roll=Math.random();
     if(roll<0.14){ const who=Math.random()<.5?"home":"away"; who==="home"?hg++:ag++;
-      ev={t:"goal",who,text:`⚽ GOAL — ${(who==="home"?home:away).n} ${(who==="home"?home:away).f}`}; }
+      ev={t:"goal",text:`⚽ GOAL — ${(who==="home"?home:away).n} ${(who==="home"?home:away).f}`}; }
     else if(roll<0.34){ const who=Math.random()<.5?home:away; ev={t:"flavor",text:`${pick(["🚩","🎯","🟨","💥","🧤"])} ${pick(evPool)} — ${who.n}`}; }
-    rounds.push({
-      minute, cur:series[i], next:series[i+1],
-      dir: series[i+1]>series[i]?"higher":"lower",
-      trend: series.slice(Math.max(0,i-4), i+1),
-      surge: Math.abs(mom), ev, hg, ag,
-    });
+    rounds.push({minute,cur:series[k],next:series[k+1],dir:series[k+1]>series[k]?"higher":"lower",
+      trend:series.slice(Math.max(0,k-4),k+1),surge:Math.abs(mom),ev,hg,ag});
   }
-  return {home,away,focus,stat,rounds};
+  return {mode:"demo",home,away,focus,stat,rounds};
 }
 function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
 
-/* ---------- audio (tiny WebAudio synth, no assets) ---------- */
+/* ---------- real match: recording timeline -> rounds (HOME/AWAY) ---------- */
+function realToRounds(tl){
+  const rounds=[]; let hs=0,as=0; const withSide=tl.steps.filter(s=>s.side).length; let seen=0;
+  for(const s of tl.steps){
+    if(s.side){ seen++;
+      rounds.push({ preH:hs, preA:as, side:s.side, kind:(s.kind||"update").toUpperCase(),
+        postH:s.home!=null?s.home:hs, postA:s.away!=null?s.away:as,
+        minute:Math.min(90,Math.max(1,Math.round(seen/withSide*90))) });
+    }
+    if(s.home!=null)hs=s.home; if(s.away!=null)as=s.away;
+  }
+  return rounds;
+}
+
+/* ---------- audio ---------- */
 let AC=null, soundOn=(localStorage.getItem("streak_sound")??"1")==="1";
 function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch{} } return AC; }
-function beep(freq,dur=.09,type="triangle",gain=.05){
-  if(!soundOn) return; const c=ac(); if(!c) return;
-  const o=c.createOscillator(),g=c.createGain();
-  o.type=type;o.frequency.value=freq;o.connect(g);g.connect(c.destination);
-  g.gain.setValueAtTime(gain,c.currentTime);
-  g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+dur);
-  o.start();o.stop(c.currentTime+dur);
-}
-function chord(freqs){ freqs.forEach((f,i)=>setTimeout(()=>beep(f,.16,"triangle",.045),i*55)); }
+function beep(freq,dur=.09,type="triangle",gain=.05){ if(!soundOn) return; const c=ac(); if(!c) return;
+  const o=c.createOscillator(),g=c.createGain(); o.type=type;o.frequency.value=freq;o.connect(g);g.connect(c.destination);
+  g.gain.setValueAtTime(gain,c.currentTime); g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+dur);
+  o.start();o.stop(c.currentTime+dur); }
+function chord(fs){ fs.forEach((f,i)=>setTimeout(()=>beep(f,.16,"triangle",.045),i*55)); }
 function buzz(){ beep(150,.28,"sawtooth",.05); }
 function tick(){ beep(880,.03,"square",.02); }
 function vibrate(p){ try{navigator.vibrate&&navigator.vibrate(p);}catch{} }
 
 /* ---------- state ---------- */
-let M=null, i=0, streak=0, points=0, correct=0, played=0, mult=1;
+let G=null, RR=null, i=0, streak=0, points=0, correct=0, played=0, mult=1, cur=null;
 let best=Number(localStorage.getItem("streak_best")||0);
 let name=localStorage.getItem("streak_name")||"";
 let timer=null, timeLeft=0, locked=true;
 const ARC=163.4, ROUND_SECS=8;
 
-$("#name").value=name;
-$("#myBest").textContent=best;
+$("#name").value=name; $("#myBest").textContent=best;
 $("#sound").textContent="🔊 Sound: "+(soundOn?"on":"off");
 
-/* ---------- start ---------- */
-function startGame(){
-  name=($("#name").value||"").trim().slice(0,24)||("Fan"+(100+R(900)));
-  localStorage.setItem("streak_name",name);
-  M=buildMatch(); i=0; streak=0; points=0; correct=0; played=0; mult=1;
-  $("#hFlag").textContent=M.home.f; $("#hName").textContent=M.home.n.toUpperCase();
-  $("#aFlag").textContent=M.away.f; $("#aName").textContent=M.away.n.toUpperCase();
-  $("#unit").textContent=M.stat.unit;
-  const ft=M.focus==="home"?M.home:M.away;
-  $("#statTeam").textContent=ft.n; $("#statName").textContent=M.stat.name;
-  $("#streak").textContent=0; $("#mult").textContent="×1"; $("#points").textContent=0; $("#best").textContent=best;
-  $("#end").innerHTML=""; $("#reveal").textContent=""; $("#tick").textContent="Kick off!";
-  $("#start").style.display="none"; $("#game").style.display="block";
-  ac(); // unlock audio on the user gesture
-  nextRound();
+function ensureName(){ name=($("#name").value||"").trim().slice(0,24)||("Fan"+(100+R(900)));
+  localStorage.setItem("streak_name",name); return name; }
+function resetRun(){ i=0;streak=0;points=0;correct=0;played=0;mult=1;
+  $("#streak").textContent=0;$("#mult").textContent="×1";$("#points").textContent=0;$("#best").textContent=best;
+  $("#end").innerHTML="";$("#reveal").textContent=""; ac(); }
+function showGame(){ $("#start").style.display="none"; $("#game").style.display="block"; }
+
+/* ---------- start demo ---------- */
+function startDemo(){
+  ensureName(); G=buildDemo(); RR=null; resetRun();
+  $("#feedBadge").textContent="DEMO FEED"; $("#feedBadge").className="badge demo";
+  $("#hFlag").textContent=G.home.f;$("#hName").textContent=G.home.n.toUpperCase();
+  $("#aFlag").textContent=G.away.f;$("#aName").textContent=G.away.n.toUpperCase();
+  $("#numBox").style.display="";$("#spark").style.display="";$("#realBox").style.display="none";$("#unit").textContent=G.stat.unit;
+  setChoice("high","▲","HIGHER","low","▼","LOWER");
+  $("#tick").textContent="Kick off!"; showGame(); nextRound();
+}
+/* ---------- start real ---------- */
+async function startReal(id){
+  ensureName();
+  let tl; try{ tl=await (await fetch("/api/timeline/"+id)).json(); }catch{ toast("Couldn't load that match"); return; }
+  if(!tl||!tl.steps){ toast("That match has no data"); return; }
+  RR=realToRounds(tl); G={mode:"real",home:{n:tl.homeTeam,f:flagFor(tl.homeTeam)},away:{n:tl.awayTeam,f:flagFor(tl.awayTeam)}};
+  resetRun();
+  $("#feedBadge").textContent="● REAL · TxLINE REPLAY"; $("#feedBadge").className="badge real";
+  $("#hFlag").textContent=G.home.f;$("#hName").textContent=G.home.n.toUpperCase();
+  $("#aFlag").textContent=G.away.f;$("#aName").textContent=G.away.n.toUpperCase();
+  $("#numBox").style.display="none";$("#spark").style.display="none";$("#realBox").style.display="flex";
+  $("#rfHome").textContent=G.home.f;$("#rfHomeN").textContent=G.home.n.toUpperCase();
+  $("#rfAway").textContent=G.away.f;$("#rfAwayN").textContent=G.away.n.toUpperCase();
+  setChoice("side-h","▲",G.home.n.toUpperCase(),"side-a","▼",G.away.n.toUpperCase());
+  $("#tick").textContent="Real recorded match · kick off!"; showGame(); nextRound();
+}
+function setChoice(clsA,arA,labA,clsB,arB,labB){
+  $("#pickA").className="choice "+clsA; $("#arA").textContent=arA; $("#labA").textContent=labA;
+  $("#pickB").className="choice "+clsB; $("#arB").textContent=arB; $("#labB").textContent=labB;
 }
 
+/* ---------- rounds (shared) ---------- */
 function nextRound(){
-  if(i>=M.rounds.length){ finish(); return; }
-  const r=M.rounds[i];
-  $("#minute").textContent=r.minute+"'";
-  $("#score").textContent=r.hg+"–"+r.ag;
+  const list=G.mode==="demo"?G.rounds:RR;
+  if(i>=list.length){ finish(); return; }
+  $("#reveal").textContent="";$("#reveal").className="reveal";
+  $("#stage").classList.remove("flash-ok","flash-bad"); $("#pickA").classList.remove("pick");$("#pickB").classList.remove("pick");
+  if(G.mode==="demo") renderDemo(G.rounds[i]); else renderReal(RR[i]);
+  setButtons(true); startTimer();
+}
+function renderDemo(r){
+  $("#minute").textContent=r.minute+"'"; $("#score").textContent=r.hg+"–"+r.ag;
   if(r.ev){ $("#tick").textContent=r.ev.text; if(r.ev.t==="goal"){beep(523,.12);setTimeout(()=>beep(784,.16),120);} }
-  $("#bignum").textContent=r.cur;
-  drawSpark(r.trend);
-  // subtle tell from momentum
+  const ft=G.focus==="home"?G.home:G.away;
+  $("#prompt").innerHTML=`<b>${esc(ft.n)}</b> · ${esc(G.stat.name)} — call the next update`;
+  $("#bignum").textContent=r.cur; drawSpark(r.trend);
   const t=$("#tell");
-  if(r.surge>M.stat.step*0.9){ t.innerHTML='🔥 <b>Momentum building</b> — the trend is strong'; }
-  else if(r.surge>M.stat.step*0.45){ t.innerHTML='Reading the run of play…'; }
-  else{ t.textContent="Feels like a coin-flip — trust your gut"; }
-  $("#reveal").textContent=""; $("#reveal").className="reveal";
-  $("#stage").classList.remove("flash-ok","flash-bad");
-  $("#pickHi").classList.remove("pick"); $("#pickLo").classList.remove("pick");
-  setButtons(true);
-  startTimer();
+  if(r.surge>G.stat.step*0.9) t.innerHTML='🔥 <b>Momentum building</b> — the trend is strong';
+  else if(r.surge>G.stat.step*0.45) t.innerHTML='Reading the run of play…';
+  else t.textContent="Feels like a coin-flip — trust your gut";
+  cur={correct:r.dir};
 }
-
+function renderReal(r){
+  $("#minute").textContent=r.minute+"'"; $("#score").textContent=r.preH+"–"+r.preA;
+  $("#prompt").innerHTML=`After the last update — <b>who takes the next moment?</b>`;
+  $("#tell").innerHTML=(r.preH>r.preA?`<b>${esc(G.home.n)}</b> lead — do they keep the pressure on?`
+    :r.preA>r.preH?`<b>${esc(G.away.n)}</b> lead — can ${esc(G.home.n)} respond?`
+    :`All square — read the momentum`);
+  cur={correct:r.side,kind:r.kind,postH:r.postH,postA:r.postA};
+}
 function drawSpark(trend){
-  const min=Math.min(...trend), max=Math.max(...trend), rng=Math.max(1,max-min);
-  $("#spark").innerHTML=trend.map((v,k)=>{
-    const h=8+Math.round((v-min)/rng*30);
-    const cls=k>0?(v>trend[k-1]?"up":v<trend[k-1]?"dn":""):"";
-    return `<i class="${cls}" style="height:${h}px"></i>`;
-  }).join("");
+  const min=Math.min(...trend),max=Math.max(...trend),rng=Math.max(1,max-min);
+  $("#spark").innerHTML=trend.map((v,k)=>{ const h=8+Math.round((v-min)/rng*30);
+    const cls=k>0?(v>trend[k-1]?"up":v<trend[k-1]?"dn":""):""; return `<i class="${cls}" style="height:${h}px"></i>`; }).join("");
 }
+function setButtons(on){ locked=!on; $("#pickA").disabled=!on; $("#pickB").disabled=!on; }
 
-function setButtons(on){ locked=!on; $("#pickHi").disabled=!on; $("#pickLo").disabled=!on; }
-
-/* ---------- countdown ---------- */
+/* ---------- timer ---------- */
 function startTimer(){
-  clearInterval(timer); timeLeft=ROUND_SECS*1000;
-  $("#ringArc").style.stroke="#CCFF00"; setRing(1); $("#ringTxt").textContent=ROUND_SECS;
+  clearInterval(timer); $("#ringArc").style.stroke="#CCFF00"; setRing(1); $("#ringTxt").textContent=ROUND_SECS;
   const t0=Date.now();
   timer=setInterval(()=>{
-    timeLeft=ROUND_SECS*1000-(Date.now()-t0);
-    const frac=Math.max(0,timeLeft/(ROUND_SECS*1000));
-    setRing(frac);
-    const secs=Math.ceil(timeLeft/1000);
-    $("#ringTxt").textContent=Math.max(0,secs);
-    if(frac<.35) $("#ringArc").style.stroke="#FF5C39";
-    else if(frac<.6) $("#ringArc").style.stroke="#FFC24B";
-    if(timeLeft<=0){ clearInterval(timer); if(!locked) resolveGuess(null); }
+    timeLeft=ROUND_SECS*1000-(Date.now()-t0); const frac=Math.max(0,timeLeft/(ROUND_SECS*1000)); setRing(frac);
+    $("#ringTxt").textContent=Math.max(0,Math.ceil(timeLeft/1000));
+    if(frac<.35)$("#ringArc").style.stroke="#FF5C39"; else if(frac<.6)$("#ringArc").style.stroke="#FFC24B";
+    if(timeLeft<=0){ clearInterval(timer); if(!locked) resolve(null); }
   },50);
 }
 function setRing(frac){ $("#ringArc").style.strokeDashoffset=(ARC*(1-frac)).toFixed(1); }
 
-/* ---------- guessing ---------- */
-function guess(dir){ if(locked) return; clearInterval(timer);
-  $("#pick"+(dir==="higher"?"Hi":"Lo")).classList.add("pick"); tick();
-  setTimeout(()=>resolveGuess(dir),160);
-}
-function resolveGuess(dir){
-  setButtons(false); clearInterval(timer);
-  const r=M.rounds[i]; played++;
-  const hit=dir===r.dir;
-  // roll the number to reveal
-  rollNumber(r.cur,r.next);
-  const arrow=r.dir==="higher"?"▲":"▼";
+/* ---------- guessing (shared) ---------- */
+function guessA(){ decide(G.mode==="demo"?"higher":"home","#pickA"); }
+function guessB(){ decide(G.mode==="demo"?"lower":"away","#pickB"); }
+function decide(val,sel){ if(locked)return; clearInterval(timer); $(sel).classList.add("pick"); tick(); setTimeout(()=>resolve(val),160); }
+
+function resolve(val){
+  setButtons(false); clearInterval(timer); played++;
+  const hit=val===cur.correct;
   const rv=$("#reveal"), stg=$("#stage");
+  let label;
+  if(G.mode==="demo"){
+    const r=G.rounds[i]; rollNumber(r.cur,r.next);
+    const arrow=cur.correct==="higher"?"▲":"▼"; label=`${arrow} ${r.next}${G.stat.unit}`;
+  }else{
+    const teamN=(cur.correct==="home"?G.home:G.away).n.toUpperCase();
+    label=`${cur.kind} — ${teamN}`;
+    $("#score").textContent=cur.postH+"–"+cur.postA;         // reveal the real outcome
+    if(cur.kind==="GOAL"){ beep(523,.12); setTimeout(()=>beep(784,.16),120); }
+  }
   if(hit){
-    correct++; streak++;
-    mult=1+Math.floor(streak/3);
-    const gained=10*mult;
-    points+=gained;
+    correct++; streak++; mult=1+Math.floor(streak/3); const g=10*mult; points+=g;
     if(streak>best){ best=streak; localStorage.setItem("streak_best",best); $("#myBest").textContent=best; }
-    rv.className="reveal ok"; rv.textContent=`✓ ${arrow} ${r.next}${M.stat.unit}  +${gained}`;
-    stg.classList.add("flash-ok");
-    bump("#hbStreak"); if(mult>1) bump("#hbMult");
-    chord([523,659,784].map(f=>f+streak*6)); vibrate(30);
+    rv.className="reveal ok"; rv.textContent=`✓ ${label}  +${g}`; stg.classList.add("flash-ok");
+    bump("#hbStreak"); if(mult>1)bump("#hbMult"); chord([523,659,784].map(f=>f+streak*6)); vibrate(30);
     if(streak%3===0){ confetti(); chord([659,784,988,1175]); vibrate([20,40,20]); }
   }else{
-    streak=0; mult=1;
-    rv.className="reveal bad"; rv.textContent=dir?`✗ ${arrow} ${r.next}${M.stat.unit}`:`⏱ time — ${arrow} ${r.next}${M.stat.unit}`;
-    stg.classList.add("flash-bad"); buzz(); vibrate([60,30,60]);
+    streak=0; mult=1; rv.className="reveal bad";
+    rv.textContent=val?`✗ ${label}`:`⏱ time — ${label}`; stg.classList.add("flash-bad"); buzz(); vibrate([60,30,60]);
   }
-  $("#streak").textContent=streak; $("#mult").textContent="×"+mult;
-  $("#points").textContent=points; $("#best").textContent=best;
-  i++;
-  setTimeout(nextRound, 1050);
+  $("#streak").textContent=streak;$("#mult").textContent="×"+mult;$("#points").textContent=points;$("#best").textContent=best;
+  i++; setTimeout(nextRound,1050);
 }
-
-function rollNumber(from,to){
-  const el=$("#bignum"); let steps=8, k=0;
-  const iv=setInterval(()=>{ k++; el.textContent=Math.round(from+(to-from)*(k/steps));
-    if(k>=steps){clearInterval(iv); el.textContent=to;} },28);
-}
+function rollNumber(from,to){ const el=$("#bignum"); let s=8,k=0;
+  const iv=setInterval(()=>{ k++; el.textContent=Math.round(from+(to-from)*(k/s)); if(k>=s){clearInterval(iv);el.textContent=to;} },28); }
 function bump(sel){ const e=$(sel); e.classList.add("bump"); setTimeout(()=>e.classList.remove("bump"),180); }
-function confetti(){
-  const b=$("#stage"), em=["⚡","🔥","🎉","⭐","💥"];
-  for(let k=0;k<16;k++){ const s=document.createElement("span"); s.className="confetti";
-    s.textContent=em[k%em.length]; s.style.left=(4+Math.random()*92)+"%";
-    s.style.animationDelay=(Math.random()*.35)+"s"; b.appendChild(s); setTimeout(()=>s.remove(),1700); }
-}
+function confetti(){ const b=$("#stage"), em=["⚡","🔥","🎉","⭐","💥"];
+  for(let k=0;k<16;k++){ const s=document.createElement("span"); s.className="confetti"; s.textContent=em[k%em.length];
+    s.style.left=(4+Math.random()*92)+"%"; s.style.animationDelay=(Math.random()*.35)+"s"; b.appendChild(s); setTimeout(()=>s.remove(),1700); } }
 
 /* ---------- full time ---------- */
 function finish(){
   setButtons(false); clearInterval(timer);
-  const acc=played?Math.round(correct/played*100):0;
-  submitRun();
-  const canMint=best>=1;
+  const acc=played?Math.round(correct/played*100):0; submitRun();
+  const modeLabel=G.mode==="real"?"REAL MATCH":"DEMO MATCH";
   $("#end").innerHTML=`
    <div class="endcard">
-     <div class="ft">FULL TIME · ${M.home.n.toUpperCase()} ${M.rounds[M.rounds.length-1].hg}–${M.rounds[M.rounds.length-1].ag} ${M.away.n.toUpperCase()}</div>
+     <div class="ft">FULL TIME · ${modeLabel} · ${esc(G.home.n.toUpperCase())} v ${esc(G.away.n.toUpperCase())}</div>
      <div class="big">${best}<span style="font-size:22px"> BEST STREAK</span></div>
-     <div class="subline">${name} · this match: ${correct}/${played} right</div>
+     <div class="subline">${esc(name)} · this match: ${correct}/${played} right</div>
      <div class="endrow">
        <div class="b"><div class="k">Points</div><div class="v">${points}</div></div>
        <div class="b"><div class="k">Accuracy</div><div class="v">${acc}%</div></div>
@@ -498,36 +526,45 @@ function finish(){
      <button class="btn ghost" id="share">SHARE</button>
      <div class="mintnote" id="mintNote">Minting stamps your streak on Solana so the leaderboard is provable — not a screenshot anyone could fake.</div>
    </div>`;
-  $("#again").onclick=startGame;
-  $("#share").onclick=share;
-  $("#mint").onclick=mint;
-  refreshMini();
+  $("#again").onclick=()=>{ G.mode==="real"&&RR?nextAgainReal():startDemo(); };
+  $("#share").onclick=share; $("#mint").onclick=mint; refreshMini();
 }
+function nextAgainReal(){ // replay the same recorded match
+  resetRun(); i=0; showGame(); $("#feedBadge").textContent="● REAL · TxLINE REPLAY"; nextRound(); }
 
 function share(){
-  const txt=`I hit a ${best}-streak on STREAK ⚡ — Higher or Lower on live World Cup stats. Beat me.`;
-  if(navigator.share){ navigator.share({title:"STREAK",text:txt}).catch(()=>{}); }
+  const how=G.mode==="real"?"real World Cup moments":"live World Cup stats";
+  const txt=`I hit a ${best}-streak on STREAK ⚡ — Higher or Lower on ${how}. Beat me.`;
+  if(navigator.share) navigator.share({title:"STREAK",text:txt}).catch(()=>{});
   else { copy(txt); toast("Score copied — go flex 🔥"); }
 }
 async function mint(){
-  const btn=$("#mint"); if(!btn) return;
-  btn.textContent="⛓ minting…"; btn.disabled=true;
+  const btn=$("#mint"); if(!btn)return; btn.textContent="⛓ minting…"; btn.disabled=true;
   try{
     const res=await fetch("/mint",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name})});
-    const d=await res.json();
-    if(!res.ok) throw new Error(d.error||"mint failed");
+    const d=await res.json(); if(!res.ok) throw new Error(d.error||"mint failed");
     $("#mintNote").innerHTML=`✅ Minted on Solana — <a href="${d.explorer}" target="_blank" rel="noopener">view on-chain ↗</a>`;
-    toast("Streak stamped on-chain ⛓"); chord([659,784,988,1319]);
-    refreshLeaderboard();
-  }catch(e){
-    btn.textContent="⛓ MINT STREAK"; btn.disabled=false;
+    toast("Streak stamped on-chain ⛓"); chord([659,784,988,1319]); refreshLeaderboard();
+  }catch(e){ btn.textContent="⛓ MINT STREAK"; btn.disabled=false;
     $("#mintNote").textContent="Minting needs a server wallet (devnet). Deployed with a funded keypair, this stamps your run on Solana — provable forever.";
-    toast("Minting unavailable in demo — deploy to enable");
-  }
+    toast("Minting unavailable in demo — deploy to enable"); }
 }
-async function submitRun(){
-  try{ await fetch("/submit",{method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({name,streak:best,correct,played,points})}); }catch{}
+async function submitRun(){ try{ await fetch("/submit",{method:"POST",headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({name,streak:best,correct,played,points})}); }catch{} }
+
+/* ---------- real match list ---------- */
+async function refreshGames(){
+  const box=$("#gameList");
+  try{
+    const games=await (await fetch("/api/games")).json();
+    if(!games.length){ box.innerHTML=`<div class="emptyish">No recorded matches yet. The server records live TxLINE matches
+      automatically — run it during a match and it'll appear here. Meanwhile, the <b style="color:var(--gold)">demo match</b> above is always playable.</div>`; return; }
+    box.innerHTML=games.map(g=>`<div class="gcard" data-id="${g.fixtureId}">
+      <div><div class="n">${flagFor(g.homeTeam)} ${esc(g.homeTeam)} <span style="color:var(--mut)">v</span> ${esc(g.awayTeam)} ${flagFor(g.awayTeam)}</div>
+        <div class="m">${g.rounds} moments to call · ${g.updates} TxLINE updates</div></div>
+      <div class="play">PLAY ▶</div></div>`).join("");
+    box.querySelectorAll(".gcard").forEach(c=>c.onclick=()=>startReal(Number(c.dataset.id)));
+  }catch{ box.innerHTML=`<div class="emptyish">Server offline — the demo match still works.</div>`; }
 }
 
 /* ---------- leaderboard ---------- */
@@ -540,43 +577,29 @@ async function refreshLeaderboard(){
       <div class="lrow ${p.name===name?"me":""}">
         <div class="rk ${k<3?"g":""}">${k===0?"🥇":k===1?"🥈":k===2?"🥉":"#"+(k+1)}</div>
         <div class="nm">${esc(p.name)} ${p.minted?`<a class="chain" href="https://explorer.solana.com/tx/${p.minted.tx}?cluster=devnet" target="_blank" rel="noopener">on-chain ↗</a>`:""}</div>
-        <div class="ac">${p.accuracy}%</div>
-        <div class="st">${p.best}</div>
+        <div class="ac">${p.accuracy}%</div><div class="st">${p.best}</div>
       </div>`).join("");
   }catch{ box.innerHTML='<div class="foot">Leaderboard offline — your best is saved locally.</div>'; }
 }
-async function refreshMini(){
-  try{ const rows=await (await fetch("/leaderboard")).json();
-    $("#topStreak").textContent=rows.length?rows[0].best+" · "+rows[0].name:"—";
-  }catch{ $("#topStreak").textContent="—"; }
-}
+async function refreshMini(){ try{ const rows=await (await fetch("/leaderboard")).json();
+  $("#topStreak").textContent=rows.length?rows[0].best+" · "+rows[0].name:"—"; }catch{ $("#topStreak").textContent="—"; } }
 
 /* ---------- misc ---------- */
 function toast(t){ const el=$("#toast"); el.textContent=t; el.classList.add("show"); setTimeout(()=>el.classList.remove("show"),2000); }
 function copy(t){ try{navigator.clipboard.writeText(t);}catch{} }
 function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 
-$("#play").onclick=startGame;
-$("#name").addEventListener("keydown",e=>{ if(e.key==="Enter") startGame(); });
-$("#pickHi").onclick=()=>guess("higher");
-$("#pickLo").onclick=()=>guess("lower");
-$("#quit").onclick=()=>{ clearInterval(timer); $("#game").style.display="none"; $("#start").style.display="block"; refreshMini(); };
+$("#playDemo").onclick=startDemo;
+$("#name").addEventListener("keydown",e=>{ if(e.key==="Enter") startDemo(); });
+$("#pickA").onclick=guessA; $("#pickB").onclick=guessB;
+$("#quit").onclick=()=>{ clearInterval(timer); $("#game").style.display="none"; $("#start").style.display="block"; refreshMini(); refreshGames(); };
 $("#sound").onclick=()=>{ soundOn=!soundOn; localStorage.setItem("streak_sound",soundOn?"1":"0");
   $("#sound").textContent="🔊 Sound: "+(soundOn?"on":"off"); if(soundOn) beep(660,.08); };
 $("#lbBtn").onclick=()=>{ $("#sheet").classList.add("open"); refreshLeaderboard(); };
 $("#lbClose").onclick=()=>$("#sheet").classList.remove("open");
 $("#sheet").addEventListener("click",e=>{ if(e.target.id==="sheet") $("#sheet").classList.remove("open"); });
 
-// find out if a live feed / wallet is present, and reflect it honestly
-(async()=>{
-  refreshMini();
-  try{ const h=await (await fetch("/health")).json();
-    if(h.feed && !/demo/i.test(h.feed) && h.openRounds>0){
-      $("#feedBadge").textContent="● LIVE"; $("#feedBadge").className="badge live";
-      $("#modeNote").innerHTML="<b>LIVE MATCH</b> streaming on the real TxLINE feed.";
-    }
-  }catch{}
-})();
+refreshMini(); refreshGames();
 </script>
 </body>
 </html>

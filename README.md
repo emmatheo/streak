@@ -23,20 +23,38 @@ click.
   paid-entry pools with on-chain settled prizes (the rails already exist).
 - **Completeness:** deliberately small scope, fully executed end to end.
 
-## How a round works
-1. TxLINE sends a stat update for a live fixture (goals, corners, cards).
-2. STREAK opens a round: "home corners = 7. Higher or lower?"
-3. Players guess (one guess each, locked in).
-4. The next TxLINE update for that stat resolves it — winners' streaks grow.
-5. A new round opens instantly. The loop runs as long as the match does.
+## Two ways to play, one leaderboard
+**REAL MATCHES** — real TxLINE score-stream recordings become step-through
+timelines: after each update, *does the next moment favour HOME or AWAY?*
+Playable any time; a live match is auto-recorded so it shows up here too.
+
+**DEMO (Higher or Lower)** — a self-contained simulated match so the page is
+always playable with no feed and no wallet. Higher or lower on a live-feeling
+stat, entirely in the browser.
+
+Both modes share the streak/multiplier/points HUD, the on-chain mint, and the
+verifiable leaderboard.
+
+### How a real round works
+1. TxLINE streams stat updates for a live fixture (goals, corners, cards). The
+   server records every event to `data/recordings/scores-*.jsonl`.
+2. STREAK turns a recording into an ordered timeline of moments.
+3. After each update, the player calls the next moment: **HOME or AWAY**.
+4. The next event in the tape resolves it — winners' streaks grow, a wrong call
+   resets to zero.
+
+Drop your own real TxLINE recordings into `data/recordings/` and they appear
+under **Real Matches** automatically. A small sample match ships in the repo so
+the mode is playable out of the box.
 
 ## TxLINE endpoints used
 - `POST /auth/guest/start` → on-chain `subscribe` (free tier) → `POST /api/token/activate`
-- `GET /api/scores/stream` (SSE) — opens and resolves every round
+- `GET /api/scores/stream` (SSE) — recorded to `data/recordings/*.jsonl`
 
 ## API
-`GET /health` · `GET /rounds` · `GET /leaderboard` · `GET /me/:name` ·
-`POST /guess {name,fixtureId,dir}` · `POST /mint {name}` · `GET /events` (SSE)
+`GET /health` · `GET /api/games` · `GET /api/timeline/:id` · `GET /leaderboard` ·
+`GET /me/:name` · `POST /submit {name,streak,correct,played,points}` ·
+`POST /mint {name}`
 
 ## Run
 ```bash

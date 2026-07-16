@@ -2,3 +2,7 @@ node_modules/
 keypair.json
 .env
 data/txline-credentials.json
+
+# runtime data (keep the sample recording, ignore live-generated)
+data/streak-players.json
+data/recordings/scores-*.jsonl
