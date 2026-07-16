@@ -1,193 +1,582 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>STREAK — call every moment. Real matches, real data.</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STREAK — Higher or Lower, live from the World Cup</title>
+<meta name="theme-color" content="#0A0A0F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0A0A0F;--card:#14141C;--line:#26263A;--lime:#CCFF00;--hot:#FF5C39;--blue:#4DA3FF;
---txt:#F5F5FA;--mut:#8B8CA3;--disp:"Archivo Black",sans-serif;--font:"Inter",sans-serif}
-*{box-sizing:border-box;margin:0}
-body{background:var(--bg);color:var(--txt);font-family:var(--font);min-height:100vh;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:-30%;z-index:-1;pointer-events:none;
- background:radial-gradient(circle at 15% 12%,rgba(204,255,0,.09),transparent 40%),
- radial-gradient(circle at 85% 88%,rgba(255,92,57,.08),transparent 45%);
- animation:drift 20s ease-in-out infinite alternate}
-@keyframes drift{100%{transform:translate(-2%,3%) scale(1.05)}}
-.wrap{max-width:520px;margin:0 auto;padding:0 16px 80px}
-header{padding:18px 0 6px;display:flex;align-items:center;gap:10px}
-.logo{font-family:var(--disp);font-size:24px;letter-spacing:1px}
-.logo b{color:var(--lime)}
-.sub{color:var(--mut);font-size:12px;flex:1}
-.badge{font-size:10px;font-weight:800;letter-spacing:1px;border-radius:6px;padding:3px 8px}
-.badge.rec{background:var(--card);color:var(--mut);border:1px solid var(--line)}
-.badge.live{background:#e5344a;color:#fff;animation:pulse 1.5s infinite}
-@keyframes pulse{50%{opacity:.6}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-h2{font-family:var(--disp);font-size:16px;letter-spacing:.5px;margin:18px 0 10px}
-.gcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:10px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:transform .15s,border-color .2s}
-.gcard:hover{transform:translateY(-2px);border-color:var(--lime)}
-.gcard .n{font-weight:800;font-size:15px}
-.gcard .m{color:var(--mut);font-size:12px;margin-top:3px}
-.gcard .play{font-family:var(--disp);color:var(--lime);font-size:13px}
-.empty{color:var(--mut);text-align:center;padding:50px 18px;line-height:1.8;font-size:13px}
+:root{
+  --bg:#08080D; --card:#14141F; --card2:#191926; --line:#282840;
+  --lime:#CCFF00; --hot:#FF5C39; --blue:#4DA3FF; --gold:#FFC24B;
+  --txt:#F6F6FB; --mut:#8B8CA8;
+  --disp:"Archivo Black",system-ui,sans-serif; --font:"Inter",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:var(--bg);color:var(--txt);font-family:var(--font);min-height:100vh;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;user-select:none}
+body::before{content:"";position:fixed;inset:-30%;z-index:-2;pointer-events:none;
+  background:
+   radial-gradient(circle at 15% 8%,rgba(204,255,0,.10),transparent 42%),
+   radial-gradient(circle at 88% 92%,rgba(255,92,57,.09),transparent 46%),
+   radial-gradient(circle at 92% 6%,rgba(77,163,255,.06),transparent 40%);
+  animation:drift 22s ease-in-out infinite alternate}
+@keyframes drift{100%{transform:translate(-2%,3%) scale(1.06)}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.05s!important}}
 
-/* game screen */
-#game{display:none}
-.hud{display:flex;gap:8px;margin:14px 0}
-.hudbox{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;text-align:center}
-.hudbox .k{color:var(--mut);font-size:10px;letter-spacing:1.2px;text-transform:uppercase}
-.hudbox .v{font-family:var(--disp);font-size:22px;margin-top:2px}
+.wrap{max-width:540px;margin:0 auto;padding:0 16px calc(40px + env(safe-area-inset-bottom))}
+header{padding:18px 2px 8px;display:flex;align-items:center;gap:10px}
+.logo{font-family:var(--disp);font-size:26px;letter-spacing:1px}
+.logo b{color:var(--lime)}
+.tag{color:var(--mut);font-size:11px;font-weight:600;flex:1;line-height:1.3}
+.badge{font-size:9.5px;font-weight:900;letter-spacing:1.4px;border-radius:6px;padding:4px 8px;white-space:nowrap}
+.badge.live{background:#e5344a;color:#fff;animation:pulse 1.4s infinite}
+.badge.demo{background:rgba(255,194,75,.14);color:var(--gold);border:1px solid rgba(255,194,75,.35)}
+@keyframes pulse{50%{opacity:.55}}
+.link{background:none;border:none;color:var(--mut);font-family:var(--font);font-weight:800;font-size:12px;cursor:pointer;padding:6px 8px;border-radius:8px}
+.link:hover{color:var(--lime)}
+
+/* ---------- start screen ---------- */
+#start{padding-top:6px;animation:rise .5s cubic-bezier(.2,.8,.2,1)}
+.hero{background:linear-gradient(160deg,#16162a,#101019);border:1px solid var(--line);border-radius:24px;
+  padding:26px 22px;text-align:center;position:relative;overflow:hidden}
+.hero .kick{font-family:var(--disp);font-size:clamp(30px,10vw,44px);line-height:.98;letter-spacing:.5px}
+.hero .kick .hi{color:var(--lime)} .hero .kick .lo{color:var(--hot)}
+.hero p{color:var(--mut);font-size:13px;line-height:1.55;margin:12px 4px 0}
+.name{width:100%;margin:18px 0 0;background:var(--bg);border:1px solid var(--line);border-radius:14px;
+  color:var(--txt);font-family:var(--font);font-weight:800;font-size:16px;padding:15px 16px;text-align:center;outline:none}
+.name:focus{border-color:var(--lime)}
+.cta{width:100%;margin-top:12px;font-family:var(--disp);font-size:19px;letter-spacing:.5px;
+  padding:18px;border-radius:16px;border:none;cursor:pointer;background:var(--lime);color:#08080D;
+  box-shadow:0 8px 30px rgba(204,255,0,.22);transition:transform .12s}
+.cta:active{transform:scale(.97)}
+.mini{display:flex;gap:10px;margin-top:14px}
+.mini .b{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.mini .b .k{color:var(--mut);font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.mini .b .v{font-family:var(--disp);font-size:22px;margin-top:3px}
+.mini .b .v.lime{color:var(--lime)}
+.how{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.how h3{font-size:11px;letter-spacing:1.4px;color:var(--mut);text-transform:uppercase;margin-bottom:8px}
+.how ol{margin:0;padding-left:18px;color:var(--txt);font-size:13px;line-height:1.75;font-weight:600}
+.how ol b{color:var(--lime)}
+.foot{color:var(--mut);font-size:11px;line-height:1.6;text-align:center;margin-top:16px}
+.foot b{color:var(--gold)}
+
+/* ---------- game screen ---------- */
+#game{display:none;animation:rise .35s ease}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+.scoreboard{background:linear-gradient(150deg,#15152a,#101019);border:1px solid var(--line);
+  border-radius:18px;padding:14px 16px;margin-top:8px;position:relative;overflow:hidden}
+.sb-top{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--mut);font-weight:800;letter-spacing:.5px}
+.clock{display:flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:#e5344a;animation:pulse 1.4s infinite}
+.sb-main{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.team{display:flex;flex-direction:column;align-items:center;gap:3px;width:34%}
+.team .flag{font-size:30px;line-height:1}
+.team .nm{font-family:var(--disp);font-size:13px;letter-spacing:.5px}
+.vs{font-family:var(--disp);font-size:34px;letter-spacing:2px}
+.vs small{display:block;font-family:var(--font);font-weight:700;font-size:9px;color:var(--mut);letter-spacing:2px;text-align:center;margin-top:2px}
+.ticker{height:20px;margin-top:8px;overflow:hidden;position:relative}
+.ticker span{position:absolute;inset:0;font-size:12px;font-weight:800;color:var(--gold);display:flex;align-items:center;gap:6px;animation:tin .4s ease}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}}
+
+.hud{display:flex;gap:8px;margin:12px 0 4px}
+.hudbox{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center;transition:transform .15s}
+.hudbox .k{color:var(--mut);font-size:9px;letter-spacing:1px;text-transform:uppercase}
+.hudbox .v{font-family:var(--disp);font-size:21px;margin-top:2px}
 .hudbox .v.streak{color:var(--lime)}
-.board{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;text-align:center;margin:12px 0;position:relative;overflow:hidden}
-.score{font-family:var(--disp);font-size:44px;letter-spacing:4px}
-.teams{display:flex;justify-content:space-between;color:var(--mut);font-size:12px;margin-top:4px;font-weight:700}
-.minute{color:var(--mut);font-size:11px;margin-top:8px}
-.q{font-family:var(--disp);font-size:17px;margin:20px 0 4px;line-height:1.35}
-.q b{color:var(--lime)}
-.choices{display:flex;gap:12px;margin-top:14px}
-.choice{flex:1;font-family:var(--disp);font-size:20px;padding:22px 10px;border-radius:16px;border:2px solid var(--line);background:var(--card);color:var(--txt);transition:transform .12s,border-color .15s;cursor:pointer}
-.choice:active{transform:scale(.96)}
-.choice.home{border-color:var(--blue)}.choice.away{border-color:var(--hot)}
-.choice:disabled{opacity:.5}
-.reveal{font-family:var(--disp);font-size:22px;margin-top:16px;min-height:30px}
-.reveal.ok{color:var(--lime);animation:pop .5s}
+.hudbox .v.mult{color:var(--gold)}
+.hudbox.bump{transform:scale(1.12)}
+
+.stage{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px 18px 22px;margin-top:8px;
+  position:relative;overflow:hidden;text-align:center}
+.stage.flash-ok{box-shadow:0 0 0 3px var(--lime) inset;border-color:var(--lime)}
+.stage.flash-bad{box-shadow:0 0 0 3px var(--hot) inset;border-color:var(--hot)}
+.prompt{font-size:12px;color:var(--mut);font-weight:800;letter-spacing:.6px;text-transform:uppercase}
+.prompt b{color:var(--txt)}
+.statwrap{display:flex;align-items:center;justify-content:center;gap:14px;margin:6px 0 2px}
+.bignum{font-family:var(--disp);font-size:74px;line-height:1;letter-spacing:1px}
+.unit{font-family:var(--disp);font-size:20px;color:var(--mut)}
+.spark{display:flex;align-items:flex-end;gap:3px;height:38px}
+.spark i{width:6px;background:var(--line);border-radius:3px;display:block;transition:height .3s,background .3s}
+.spark i.up{background:var(--lime)} .spark i.dn{background:var(--hot)}
+.tell{font-size:11px;color:var(--mut);font-weight:700;margin-top:2px;min-height:15px}
+.tell b{color:var(--gold)}
+
+.ring{position:relative;width:60px;height:60px;margin:12px auto 6px}
+.ring svg{transform:rotate(-90deg)}
+.ring .txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:22px}
+
+.choices{display:flex;gap:12px;margin-top:8px}
+.choice{flex:1;font-family:var(--disp);font-size:20px;padding:20px 8px 16px;border-radius:16px;border:2px solid var(--line);
+  background:var(--card2);color:var(--txt);cursor:pointer;transition:transform .1s,border-color .15s,background .15s;line-height:1}
+.choice .ar{font-size:26px;display:block;margin-bottom:4px}
+.choice.high{border-color:rgba(204,255,0,.4)} .choice.high .ar{color:var(--lime)}
+.choice.low{border-color:rgba(255,92,57,.4)} .choice.low .ar{color:var(--hot)}
+.choice:active{transform:scale(.95)}
+.choice.high:hover{background:rgba(204,255,0,.08)} .choice.low:hover{background:rgba(255,92,57,.08)}
+.choice.pick{transform:scale(1.02)} .choice.high.pick{background:rgba(204,255,0,.16);border-color:var(--lime)}
+.choice.low.pick{background:rgba(255,92,57,.16);border-color:var(--hot)}
+.choice:disabled{opacity:.45;cursor:default}
+
+.reveal{font-family:var(--disp);font-size:20px;margin-top:12px;min-height:26px}
+.reveal.ok{color:var(--lime);animation:pop .45s}
 .reveal.bad{color:var(--hot);animation:shake .4s}
-@keyframes pop{0%{transform:scale(.6);opacity:0}}
-@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.board.flash-ok{box-shadow:0 0 0 3px var(--lime) inset}
-.board.flash-bad{box-shadow:0 0 0 3px var(--hot) inset}
-.confetti{position:absolute;top:-10px;font-size:18px;animation:fall 1.2s linear forwards;pointer-events:none}
-@keyframes fall{to{transform:translateY(320px) rotate(360deg);opacity:0}}
-.endcard{background:linear-gradient(150deg,#131320,#181826);border:2px solid var(--lime);border-radius:20px;padding:24px;text-align:center;margin:14px 0}
-.endcard .big{font-family:var(--disp);font-size:46px;color:var(--lime)}
-.btn{font-family:var(--disp);font-size:14px;padding:14px 18px;border-radius:14px;border:none;cursor:pointer;margin:6px 4px 0}
-.btn.lime{background:var(--lime);color:#0A0A0F}
+@keyframes pop{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.12)}}
+@keyframes shake{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.confetti{position:absolute;top:-14px;font-size:18px;pointer-events:none;animation:fall 1.25s linear forwards;z-index:5}
+@keyframes fall{to{transform:translateY(360px) rotate(420deg);opacity:0}}
+
+.controls{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+
+/* ---------- end card ---------- */
+.endcard{background:linear-gradient(150deg,#141426,#1a1a2c);border:2px solid var(--lime);border-radius:22px;
+  padding:24px 20px;text-align:center;margin-top:10px;animation:rise .4s ease}
+.endcard .ft{font-weight:900;color:var(--mut);letter-spacing:2px;font-size:11px}
+.endcard .big{font-family:var(--disp);font-size:58px;color:var(--lime);line-height:1;margin:6px 0 2px}
+.endcard .subline{color:var(--mut);font-size:12px}
+.endrow{display:flex;gap:8px;margin:16px 0 4px}
+.endrow .b{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 4px}
+.endrow .b .k{color:var(--mut);font-size:9px;letter-spacing:1px;text-transform:uppercase}
+.endrow .b .v{font-family:var(--disp);font-size:20px;margin-top:2px}
+.btn{font-family:var(--disp);font-size:14px;padding:14px 16px;border-radius:14px;border:none;cursor:pointer;margin:6px 3px 0;transition:transform .1s}
+.btn:active{transform:scale(.96)}
+.btn.lime{background:var(--lime);color:#08080D} .btn.gold{background:var(--gold);color:#08080D}
 .btn.ghost{background:transparent;color:var(--mut);border:1px solid var(--line)}
-.note{color:var(--mut);font-size:11px;margin-top:14px;line-height:1.6}
-.note a{color:var(--lime)}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--lime);border-radius:12px;padding:12px 18px;font-weight:700;z-index:50;display:none}
+.mintnote{color:var(--mut);font-size:11px;margin-top:12px;line-height:1.6}
+.mintnote a{color:var(--lime);font-weight:800}
+
+/* ---------- leaderboard sheet ---------- */
+.sheet{position:fixed;inset:0;background:rgba(4,4,10,.72);backdrop-filter:blur(6px);z-index:60;display:none;
+  align-items:flex-end;justify-content:center}
+.sheet.open{display:flex}
+.sheetbox{width:100%;max-width:540px;background:var(--card);border:1px solid var(--line);border-radius:22px 22px 0 0;
+  padding:20px 18px calc(26px + env(safe-area-inset-bottom));max-height:82vh;overflow:auto;animation:slideup .3s ease}
+@keyframes slideup{from{transform:translateY(40px);opacity:0}}
+.sheetbox h2{font-family:var(--disp);font-size:18px;margin-bottom:2px}
+.sheetbox .sub{color:var(--mut);font-size:12px;margin-bottom:14px}
+.lrow{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--line);margin-bottom:8px}
+.lrow.me{border-color:var(--lime)}
+.lrow .rk{font-family:var(--disp);font-size:16px;width:26px;color:var(--mut)}
+.lrow .rk.g{color:var(--gold)}
+.lrow .nm{flex:1;font-weight:800;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lrow .nm .chain{color:var(--blue);font-size:11px;font-weight:800;text-decoration:none}
+.lrow .st{font-family:var(--disp);font-size:20px;color:var(--lime)}
+.lrow .ac{color:var(--mut);font-size:11px;width:52px;text-align:right}
+.close{width:100%;margin-top:6px}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(60px);
+  background:var(--card2);border:1px solid var(--lime);border-radius:12px;padding:12px 18px;font-weight:800;font-size:13px;
+  z-index:80;transition:transform .3s cubic-bezier(.2,.9,.2,1);max-width:90vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <span class="logo">STRE<b>A</b>K</span>
-    <span class="sub">call every moment · real TxLINE data</span>
-    <span class="badge rec" id="mode">RECORDED</span>
+    <span class="tag">Higher or Lower on live match stats</span>
+    <button class="link" id="lbBtn">🏆 Ranks</button>
   </header>
 
-  <div id="lobby">
-    <h2>PICK YOUR MATCH</h2>
-    <div id="list"><div class="empty">Loading real recorded matches…</div></div>
-    <div class="note">Every game replays a <b>real match</b>, moment by moment, exactly as TxLINE streamed it —
-    goals, cards, corners, in order. No scripts, no fakes. Guess which side each moment favors. Build the streak.</div>
+  <!-- START -->
+  <div id="start">
+    <div class="hero">
+      <div class="kick">HIGHER<br><span class="lo">or</span> <span class="hi">LOWER?</span></div>
+      <p>A match is live. The stat is on the board. Call the next update — build the longest streak you can. One wrong call and you're back to zero.</p>
+      <input class="name" id="name" maxlength="24" placeholder="Enter your name" autocomplete="off" spellcheck="false">
+      <button class="cta" id="play">▶  KICK OFF</button>
+      <div class="mini">
+        <div class="b"><div class="k">Your best</div><div class="v lime" id="myBest">0</div></div>
+        <div class="b"><div class="k">Top streak</div><div class="v" id="topStreak">—</div></div>
+      </div>
+    </div>
+
+    <div class="how">
+      <h3>How a round works</h3>
+      <ol>
+        <li>A live stat is on the board — say <b>57% possession</b>.</li>
+        <li>Call the next feed update: <b>HIGHER</b> or <b>LOWER</b>?</li>
+        <li>Right → your streak grows and your multiplier climbs.</li>
+        <li>Wrong → streak resets. Play the whole match, chase your best.</li>
+      </ol>
+    </div>
+    <div class="foot">
+      <span id="modeNote"><b>DEMO MATCH</b> — a simulated live feed so you can play any time.</span><br>
+      Live matches run on the real <b>TxLINE</b> World Cup feed, and top streaks can be minted on-chain.
+    </div>
   </div>
 
+  <!-- GAME -->
   <div id="game">
-    <div class="hud">
-      <div class="hudbox"><div class="k">Streak</div><div class="v streak" id="streak">0</div></div>
-      <div class="hudbox"><div class="k">Best</div><div class="v" id="best">0</div></div>
-      <div class="hudbox"><div class="k">Moment</div><div class="v" id="prog">–</div></div>
+    <div class="scoreboard">
+      <div class="sb-top">
+        <span class="badge demo" id="feedBadge">DEMO FEED</span>
+        <span class="clock"><span class="dot"></span><b id="minute">1'</b></span>
+      </div>
+      <div class="sb-main">
+        <div class="team"><span class="flag" id="hFlag">🏳️</span><span class="nm" id="hName">HOME</span></div>
+        <div class="vs"><span id="score">0–0</span><small>SCORE</small></div>
+        <div class="team"><span class="flag" id="aFlag">🏳️</span><span class="nm" id="aName">AWAY</span></div>
+      </div>
+      <div class="ticker"><span id="tick"></span></div>
     </div>
-    <div class="board" id="board">
-      <div class="score" id="score">0 : 0</div>
-      <div class="teams"><span>HOME</span><span>AWAY</span></div>
-      <div class="minute" id="stamp"></div>
-      <div class="q">NEXT MOMENT — <b>who does it favor?</b></div>
+
+    <div class="hud">
+      <div class="hudbox" id="hbStreak"><div class="k">Streak</div><div class="v streak" id="streak">0</div></div>
+      <div class="hudbox" id="hbMult"><div class="k">Multiplier</div><div class="v mult" id="mult">×1</div></div>
+      <div class="hudbox"><div class="k">Points</div><div class="v" id="points">0</div></div>
+      <div class="hudbox"><div class="k">Best</div><div class="v" id="best">0</div></div>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="prompt"><b id="statTeam">Spain</b> · <span id="statName">Possession</span> — call the next update</div>
+      <div class="statwrap">
+        <div class="spark" id="spark"></div>
+        <div><span class="bignum" id="bignum">0</span><span class="unit" id="unit">%</span></div>
+      </div>
+      <div class="tell" id="tell"></div>
+
+      <div class="ring" id="ring">
+        <svg width="60" height="60"><circle cx="30" cy="30" r="26" stroke="#282840" stroke-width="5" fill="none"></circle>
+          <circle id="ringArc" cx="30" cy="30" r="26" stroke="#CCFF00" stroke-width="5" fill="none"
+            stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="0"></circle></svg>
+        <div class="txt" id="ringTxt">8</div>
+      </div>
+
       <div class="choices">
-        <button class="choice home" id="pickH">HOME</button>
-        <button class="choice away" id="pickA">AWAY</button>
+        <button class="choice high" id="pickHi"><span class="ar">▲</span>HIGHER</button>
+        <button class="choice low" id="pickLo"><span class="ar">▼</span>LOWER</button>
       </div>
       <div class="reveal" id="reveal"></div>
     </div>
+
     <div id="end"></div>
-    <button class="btn ghost" id="quit">← matches</button>
+
+    <div class="controls">
+      <button class="btn ghost" id="quit">← Quit match</button>
+      <button class="link" id="sound">🔊 Sound: on</button>
+    </div>
   </div>
 </div>
-<div class="toast" id="toast">Copied!</div>
+
+<!-- LEADERBOARD -->
+<div class="sheet" id="sheet">
+  <div class="sheetbox">
+    <h2>🏆 Leaderboard</h2>
+    <div class="sub">Longest verified streaks. <span style="color:var(--blue)">on-chain ↗</span> = minted, provable on Solana.</div>
+    <div id="lbList"><div class="foot">Loading…</div></div>
+    <button class="btn ghost close" id="lbClose">Close</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
+"use strict";
 const $=s=>document.querySelector(s);
-let tl=null, idx=0, streak=0, best=Number(localStorage.getItem("streak_best")||0);
-$("#best").textContent=best;
+const R=(n)=>Math.floor(Math.random()*n);
+const pick=a=>a[R(a.length)];
 
-async function lobby(){
-  try{
-    const games=await (await fetch("/api/games")).json();
-    if(!games.length){$("#list").innerHTML=`<div class="empty"><b style="color:var(--txt)">No recorded matches on this server yet.</b><br>
-      Games appear as real TxLINE matches are recorded — the server records automatically whenever a match is live.</div>`;return;}
-    $("#list").innerHTML=games.map(g=>`<div class="gcard" data-id="${g.fixtureId}">
-      <div><div class="n">Match #${g.fixtureId}</div><div class="m">${g.rounds} guessable moments · ${g.updates} live updates · real TxLINE recording</div></div>
-      <div class="play">PLAY ▶</div></div>`).join("");
-    document.querySelectorAll(".gcard").forEach(c=>c.onclick=()=>start(Number(c.dataset.id)));
-  }catch{$("#list").innerHTML=`<div class="empty">Server offline — start it, then refresh.</div>`;}
+/* ---------- teams ---------- */
+const TEAMS=[
+ {n:"Spain",f:"🇪🇸"},{n:"Germany",f:"🇩🇪"},{n:"Brazil",f:"🇧🇷"},{n:"France",f:"🇫🇷"},
+ {n:"Argentina",f:"🇦🇷"},{n:"Portugal",f:"🇵🇹"},{n:"England",f:"🇬🇧"},{n:"Netherlands",f:"🇳🇱"},
+ {n:"Japan",f:"🇯🇵"},{n:"Morocco",f:"🇲🇦"},{n:"Croatia",f:"🇭🇷"},{n:"USA",f:"🇺🇸"},
+ {n:"Italy",f:"🇮🇹"},{n:"Belgium",f:"🇧🇪"},{n:"Mexico",f:"🇲🇽"},{n:"Uruguay",f:"🇺🇾"},
+];
+/* stats we play on. Each fluctuates so HIGHER/LOWER is a real call with a readable tell. */
+const STATS=[
+ {name:"Possession",unit:"%",lo:36,hi:66,step:3,evt:"pressure"},
+ {name:"Shots in last 10'",unit:"",lo:0,hi:9,step:2,evt:"pressure"},
+ {name:"Attack momentum",unit:"",lo:20,hi:88,step:8,evt:"pressure"},
+];
+
+/* ---------- build a full "match tape" ---------- */
+function buildMatch(){
+  let [home,away]=[pick(TEAMS),pick(TEAMS)];
+  while(away.n===home.n) away=pick(TEAMS);
+  const focus=Math.random()<.5?"home":"away";
+  const stat=pick(STATS);
+  const N=18+R(6);                 // rounds this match
+  // fluctuating series with momentum (the tell): attentive players beat ~50/50.
+  let v=Math.round((stat.lo+stat.hi)/2)+(-3+R(7));
+  let mom=0;
+  const series=[clamp(v,stat.lo,stat.hi)];
+  for(let i=0;i<N;i++){
+    mom=mom*0.55 + (Math.random()*2-1)*stat.step;                // persistent drift
+    const revert=(( (stat.lo+stat.hi)/2 )-v)*0.10;               // pull to the mean
+    v=Math.round(v+mom+revert+(Math.random()*2-1));
+    v=clamp(v,stat.lo,stat.hi);
+    if(v===series[series.length-1]) v+=mom>=0?1:-1;              // never a tie
+    v=clamp(v,stat.lo,stat.hi);
+    series.push(v);
+  }
+  // scoreline + flavour events over ~90'
+  let hg=0,ag=0,minute=1;
+  const rounds=[];
+  const evPool=["corner","shot","card","chance","save","free kick"];
+  for(let i=0;i<N;i++){
+    minute=Math.min(90, minute + 3 + R(5));
+    let ev=null;
+    const roll=Math.random();
+    if(roll<0.14){ const who=Math.random()<.5?"home":"away"; who==="home"?hg++:ag++;
+      ev={t:"goal",who,text:`⚽ GOAL — ${(who==="home"?home:away).n} ${(who==="home"?home:away).f}`}; }
+    else if(roll<0.34){ const who=Math.random()<.5?home:away; ev={t:"flavor",text:`${pick(["🚩","🎯","🟨","💥","🧤"])} ${pick(evPool)} — ${who.n}`}; }
+    rounds.push({
+      minute, cur:series[i], next:series[i+1],
+      dir: series[i+1]>series[i]?"higher":"lower",
+      trend: series.slice(Math.max(0,i-4), i+1),
+      surge: Math.abs(mom), ev, hg, ag,
+    });
+  }
+  return {home,away,focus,stat,rounds};
+}
+function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
+
+/* ---------- audio (tiny WebAudio synth, no assets) ---------- */
+let AC=null, soundOn=(localStorage.getItem("streak_sound")??"1")==="1";
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch{} } return AC; }
+function beep(freq,dur=.09,type="triangle",gain=.05){
+  if(!soundOn) return; const c=ac(); if(!c) return;
+  const o=c.createOscillator(),g=c.createGain();
+  o.type=type;o.frequency.value=freq;o.connect(g);g.connect(c.destination);
+  g.gain.setValueAtTime(gain,c.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+dur);
+  o.start();o.stop(c.currentTime+dur);
+}
+function chord(freqs){ freqs.forEach((f,i)=>setTimeout(()=>beep(f,.16,"triangle",.045),i*55)); }
+function buzz(){ beep(150,.28,"sawtooth",.05); }
+function tick(){ beep(880,.03,"square",.02); }
+function vibrate(p){ try{navigator.vibrate&&navigator.vibrate(p);}catch{} }
+
+/* ---------- state ---------- */
+let M=null, i=0, streak=0, points=0, correct=0, played=0, mult=1;
+let best=Number(localStorage.getItem("streak_best")||0);
+let name=localStorage.getItem("streak_name")||"";
+let timer=null, timeLeft=0, locked=true;
+const ARC=163.4, ROUND_SECS=8;
+
+$("#name").value=name;
+$("#myBest").textContent=best;
+$("#sound").textContent="🔊 Sound: "+(soundOn?"on":"off");
+
+/* ---------- start ---------- */
+function startGame(){
+  name=($("#name").value||"").trim().slice(0,24)||("Fan"+(100+R(900)));
+  localStorage.setItem("streak_name",name);
+  M=buildMatch(); i=0; streak=0; points=0; correct=0; played=0; mult=1;
+  $("#hFlag").textContent=M.home.f; $("#hName").textContent=M.home.n.toUpperCase();
+  $("#aFlag").textContent=M.away.f; $("#aName").textContent=M.away.n.toUpperCase();
+  $("#unit").textContent=M.stat.unit;
+  const ft=M.focus==="home"?M.home:M.away;
+  $("#statTeam").textContent=ft.n; $("#statName").textContent=M.stat.name;
+  $("#streak").textContent=0; $("#mult").textContent="×1"; $("#points").textContent=0; $("#best").textContent=best;
+  $("#end").innerHTML=""; $("#reveal").textContent=""; $("#tick").textContent="Kick off!";
+  $("#start").style.display="none"; $("#game").style.display="block";
+  ac(); // unlock audio on the user gesture
+  nextRound();
 }
 
-async function start(id){
-  tl=await (await fetch("/api/timeline/"+id)).json();
-  // only steps that have an answer are rounds; we walk the full tape for scores
-  idx=0;streak=0;$("#streak").textContent=0;$("#end").innerHTML="";$("#reveal").textContent="";
-  $("#lobby").style.display="none";$("#game").style.display="block";
-  advanceToNextRound(true);
-}
-
-function advanceToNextRound(first){
-  // move idx forward to just before the next answerable step
-  while(idx<tl.steps.length&&!tl.steps[idx].side)applyStep(tl.steps[idx++]);
-  if(idx>=tl.steps.length){finish();return;}
-  const total=tl.steps.filter(s=>s.side).length;
-  const done=tl.steps.slice(0,idx).filter(s=>s.side).length;
-  $("#prog").textContent=(done+1)+"/"+total;
+function nextRound(){
+  if(i>=M.rounds.length){ finish(); return; }
+  const r=M.rounds[i];
+  $("#minute").textContent=r.minute+"'";
+  $("#score").textContent=r.hg+"–"+r.ag;
+  if(r.ev){ $("#tick").textContent=r.ev.text; if(r.ev.t==="goal"){beep(523,.12);setTimeout(()=>beep(784,.16),120);} }
+  $("#bignum").textContent=r.cur;
+  drawSpark(r.trend);
+  // subtle tell from momentum
+  const t=$("#tell");
+  if(r.surge>M.stat.step*0.9){ t.innerHTML='🔥 <b>Momentum building</b> — the trend is strong'; }
+  else if(r.surge>M.stat.step*0.45){ t.innerHTML='Reading the run of play…'; }
+  else{ t.textContent="Feels like a coin-flip — trust your gut"; }
+  $("#reveal").textContent=""; $("#reveal").className="reveal";
+  $("#stage").classList.remove("flash-ok","flash-bad");
+  $("#pickHi").classList.remove("pick"); $("#pickLo").classList.remove("pick");
   setButtons(true);
-}
-function applyStep(s){
-  if(s.home!=null&&s.away!=null)$("#score").textContent=s.home+" : "+s.away;
-  if(s.t)$("#stamp").textContent=new Date(s.t).toLocaleTimeString();
-}
-function setButtons(on){$("#pickH").disabled=!on;$("#pickA").disabled=!on;}
-
-function guess(side){
-  setButtons(false);
-  const step=tl.steps[idx++]; // the answerable step
-  const hit=step.side===side;
-  applyStep(step);
-  const label=step.kind.toUpperCase()+" — "+step.side.toUpperCase();
-  const r=$("#reveal");r.className="reveal "+(hit?"ok":"bad");
-  r.textContent=hit?("✓ "+label+"  +1"):("✗ "+label);
-  const b=$("#board");b.classList.remove("flash-ok","flash-bad");void b.offsetWidth;
-  b.classList.add(hit?"flash-ok":"flash-bad");
-  if(hit){streak++;$("#streak").textContent=streak;
-    if(streak>best){best=streak;localStorage.setItem("streak_best",best);$("#best").textContent=best;}
-    if(streak>0&&streak%3===0)confetti();
-  }else{streak=0;$("#streak").textContent=0;}
-  setTimeout(()=>advanceToNextRound(),900);
-}
-$("#pickH").onclick=()=>guess("home");
-$("#pickA").onclick=()=>guess("away");
-$("#quit").onclick=()=>{$("#game").style.display="none";$("#lobby").style.display="block";};
-
-function finish(){
-  setButtons(false);
-  $("#end").innerHTML=`<div class="endcard">
-    <div style="font-weight:800;color:var(--mut);letter-spacing:2px;font-size:11px">FULL TIME — YOUR BEST RUN</div>
-    <div class="big">${best} STREAK</div>
-    <button class="btn lime" id="share">SHARE SCORE</button>
-    <button class="btn ghost" id="again">PLAY ANOTHER</button>
-    <div class="note">Played on real recorded TxLINE World Cup data — every moment happened.</div>
-  </div>`;
-  $("#share").onclick=()=>{navigator.clipboard.writeText(`I hit a ${best}-streak calling real World Cup moments on STREAK ⚡ every event is real TxLINE data. Beat me.`);
-    const t=$("#toast");t.style.display="block";setTimeout(()=>t.style.display="none",1800);};
-  $("#again").onclick=()=>{$("#game").style.display="none";$("#lobby").style.display="block";};
+  startTimer();
 }
 
+function drawSpark(trend){
+  const min=Math.min(...trend), max=Math.max(...trend), rng=Math.max(1,max-min);
+  $("#spark").innerHTML=trend.map((v,k)=>{
+    const h=8+Math.round((v-min)/rng*30);
+    const cls=k>0?(v>trend[k-1]?"up":v<trend[k-1]?"dn":""):"";
+    return `<i class="${cls}" style="height:${h}px"></i>`;
+  }).join("");
+}
+
+function setButtons(on){ locked=!on; $("#pickHi").disabled=!on; $("#pickLo").disabled=!on; }
+
+/* ---------- countdown ---------- */
+function startTimer(){
+  clearInterval(timer); timeLeft=ROUND_SECS*1000;
+  $("#ringArc").style.stroke="#CCFF00"; setRing(1); $("#ringTxt").textContent=ROUND_SECS;
+  const t0=Date.now();
+  timer=setInterval(()=>{
+    timeLeft=ROUND_SECS*1000-(Date.now()-t0);
+    const frac=Math.max(0,timeLeft/(ROUND_SECS*1000));
+    setRing(frac);
+    const secs=Math.ceil(timeLeft/1000);
+    $("#ringTxt").textContent=Math.max(0,secs);
+    if(frac<.35) $("#ringArc").style.stroke="#FF5C39";
+    else if(frac<.6) $("#ringArc").style.stroke="#FFC24B";
+    if(timeLeft<=0){ clearInterval(timer); if(!locked) resolveGuess(null); }
+  },50);
+}
+function setRing(frac){ $("#ringArc").style.strokeDashoffset=(ARC*(1-frac)).toFixed(1); }
+
+/* ---------- guessing ---------- */
+function guess(dir){ if(locked) return; clearInterval(timer);
+  $("#pick"+(dir==="higher"?"Hi":"Lo")).classList.add("pick"); tick();
+  setTimeout(()=>resolveGuess(dir),160);
+}
+function resolveGuess(dir){
+  setButtons(false); clearInterval(timer);
+  const r=M.rounds[i]; played++;
+  const hit=dir===r.dir;
+  // roll the number to reveal
+  rollNumber(r.cur,r.next);
+  const arrow=r.dir==="higher"?"▲":"▼";
+  const rv=$("#reveal"), stg=$("#stage");
+  if(hit){
+    correct++; streak++;
+    mult=1+Math.floor(streak/3);
+    const gained=10*mult;
+    points+=gained;
+    if(streak>best){ best=streak; localStorage.setItem("streak_best",best); $("#myBest").textContent=best; }
+    rv.className="reveal ok"; rv.textContent=`✓ ${arrow} ${r.next}${M.stat.unit}  +${gained}`;
+    stg.classList.add("flash-ok");
+    bump("#hbStreak"); if(mult>1) bump("#hbMult");
+    chord([523,659,784].map(f=>f+streak*6)); vibrate(30);
+    if(streak%3===0){ confetti(); chord([659,784,988,1175]); vibrate([20,40,20]); }
+  }else{
+    streak=0; mult=1;
+    rv.className="reveal bad"; rv.textContent=dir?`✗ ${arrow} ${r.next}${M.stat.unit}`:`⏱ time — ${arrow} ${r.next}${M.stat.unit}`;
+    stg.classList.add("flash-bad"); buzz(); vibrate([60,30,60]);
+  }
+  $("#streak").textContent=streak; $("#mult").textContent="×"+mult;
+  $("#points").textContent=points; $("#best").textContent=best;
+  i++;
+  setTimeout(nextRound, 1050);
+}
+
+function rollNumber(from,to){
+  const el=$("#bignum"); let steps=8, k=0;
+  const iv=setInterval(()=>{ k++; el.textContent=Math.round(from+(to-from)*(k/steps));
+    if(k>=steps){clearInterval(iv); el.textContent=to;} },28);
+}
+function bump(sel){ const e=$(sel); e.classList.add("bump"); setTimeout(()=>e.classList.remove("bump"),180); }
 function confetti(){
-  const b=$("#board");
-  for(let i=0;i<14;i++){const s=document.createElement("span");s.className="confetti";
-    s.textContent=["⚡","🎉","🔥","⭐"][i%4];s.style.left=(5+Math.random()*90)+"%";
-    s.style.animationDelay=(Math.random()*.3)+"s";b.appendChild(s);setTimeout(()=>s.remove(),1600);}
+  const b=$("#stage"), em=["⚡","🔥","🎉","⭐","💥"];
+  for(let k=0;k<16;k++){ const s=document.createElement("span"); s.className="confetti";
+    s.textContent=em[k%em.length]; s.style.left=(4+Math.random()*92)+"%";
+    s.style.animationDelay=(Math.random()*.35)+"s"; b.appendChild(s); setTimeout(()=>s.remove(),1700); }
 }
-lobby();
+
+/* ---------- full time ---------- */
+function finish(){
+  setButtons(false); clearInterval(timer);
+  const acc=played?Math.round(correct/played*100):0;
+  submitRun();
+  const canMint=best>=1;
+  $("#end").innerHTML=`
+   <div class="endcard">
+     <div class="ft">FULL TIME · ${M.home.n.toUpperCase()} ${M.rounds[M.rounds.length-1].hg}–${M.rounds[M.rounds.length-1].ag} ${M.away.n.toUpperCase()}</div>
+     <div class="big">${best}<span style="font-size:22px"> BEST STREAK</span></div>
+     <div class="subline">${name} · this match: ${correct}/${played} right</div>
+     <div class="endrow">
+       <div class="b"><div class="k">Points</div><div class="v">${points}</div></div>
+       <div class="b"><div class="k">Accuracy</div><div class="v">${acc}%</div></div>
+       <div class="b"><div class="k">Best</div><div class="v" style="color:var(--lime)">${best}</div></div>
+     </div>
+     <button class="btn lime" id="again">▶ PLAY AGAIN</button>
+     <button class="btn gold" id="mint">⛓ MINT STREAK</button>
+     <button class="btn ghost" id="share">SHARE</button>
+     <div class="mintnote" id="mintNote">Minting stamps your streak on Solana so the leaderboard is provable — not a screenshot anyone could fake.</div>
+   </div>`;
+  $("#again").onclick=startGame;
+  $("#share").onclick=share;
+  $("#mint").onclick=mint;
+  refreshMini();
+}
+
+function share(){
+  const txt=`I hit a ${best}-streak on STREAK ⚡ — Higher or Lower on live World Cup stats. Beat me.`;
+  if(navigator.share){ navigator.share({title:"STREAK",text:txt}).catch(()=>{}); }
+  else { copy(txt); toast("Score copied — go flex 🔥"); }
+}
+async function mint(){
+  const btn=$("#mint"); if(!btn) return;
+  btn.textContent="⛓ minting…"; btn.disabled=true;
+  try{
+    const res=await fetch("/mint",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name})});
+    const d=await res.json();
+    if(!res.ok) throw new Error(d.error||"mint failed");
+    $("#mintNote").innerHTML=`✅ Minted on Solana — <a href="${d.explorer}" target="_blank" rel="noopener">view on-chain ↗</a>`;
+    toast("Streak stamped on-chain ⛓"); chord([659,784,988,1319]);
+    refreshLeaderboard();
+  }catch(e){
+    btn.textContent="⛓ MINT STREAK"; btn.disabled=false;
+    $("#mintNote").textContent="Minting needs a server wallet (devnet). Deployed with a funded keypair, this stamps your run on Solana — provable forever.";
+    toast("Minting unavailable in demo — deploy to enable");
+  }
+}
+async function submitRun(){
+  try{ await fetch("/submit",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({name,streak:best,correct,played,points})}); }catch{}
+}
+
+/* ---------- leaderboard ---------- */
+async function refreshLeaderboard(){
+  const box=$("#lbList");
+  try{
+    const rows=await (await fetch("/leaderboard")).json();
+    if(!rows.length){ box.innerHTML='<div class="foot">No streaks yet — be the first on the board.</div>'; return; }
+    box.innerHTML=rows.slice(0,20).map((p,k)=>`
+      <div class="lrow ${p.name===name?"me":""}">
+        <div class="rk ${k<3?"g":""}">${k===0?"🥇":k===1?"🥈":k===2?"🥉":"#"+(k+1)}</div>
+        <div class="nm">${esc(p.name)} ${p.minted?`<a class="chain" href="https://explorer.solana.com/tx/${p.minted.tx}?cluster=devnet" target="_blank" rel="noopener">on-chain ↗</a>`:""}</div>
+        <div class="ac">${p.accuracy}%</div>
+        <div class="st">${p.best}</div>
+      </div>`).join("");
+  }catch{ box.innerHTML='<div class="foot">Leaderboard offline — your best is saved locally.</div>'; }
+}
+async function refreshMini(){
+  try{ const rows=await (await fetch("/leaderboard")).json();
+    $("#topStreak").textContent=rows.length?rows[0].best+" · "+rows[0].name:"—";
+  }catch{ $("#topStreak").textContent="—"; }
+}
+
+/* ---------- misc ---------- */
+function toast(t){ const el=$("#toast"); el.textContent=t; el.classList.add("show"); setTimeout(()=>el.classList.remove("show"),2000); }
+function copy(t){ try{navigator.clipboard.writeText(t);}catch{} }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+$("#play").onclick=startGame;
+$("#name").addEventListener("keydown",e=>{ if(e.key==="Enter") startGame(); });
+$("#pickHi").onclick=()=>guess("higher");
+$("#pickLo").onclick=()=>guess("lower");
+$("#quit").onclick=()=>{ clearInterval(timer); $("#game").style.display="none"; $("#start").style.display="block"; refreshMini(); };
+$("#sound").onclick=()=>{ soundOn=!soundOn; localStorage.setItem("streak_sound",soundOn?"1":"0");
+  $("#sound").textContent="🔊 Sound: "+(soundOn?"on":"off"); if(soundOn) beep(660,.08); };
+$("#lbBtn").onclick=()=>{ $("#sheet").classList.add("open"); refreshLeaderboard(); };
+$("#lbClose").onclick=()=>$("#sheet").classList.remove("open");
+$("#sheet").addEventListener("click",e=>{ if(e.target.id==="sheet") $("#sheet").classList.remove("open"); });
+
+// find out if a live feed / wallet is present, and reflect it honestly
+(async()=>{
+  refreshMini();
+  try{ const h=await (await fetch("/health")).json();
+    if(h.feed && !/demo/i.test(h.feed) && h.openRounds>0){
+      $("#feedBadge").textContent="● LIVE"; $("#feedBadge").className="badge live";
+      $("#modeNote").innerHTML="<b>LIVE MATCH</b> streaming on the real TxLINE feed.";
+    }
+  }catch{}
+})();
 </script>
 </body>
 </html>

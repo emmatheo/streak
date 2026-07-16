@@ -42,6 +42,7 @@ export interface Player {
   best: number;
   correct: number;
   played: number;
+  points: number;
   lastPlayedAt: number;
   minted?: { streak: number; tx: string; at: number }[];
 }
@@ -141,6 +142,32 @@ export class StreakGame extends EventEmitter {
     this.openRound(r.fixtureId); // next round immediately — keeps the loop tight
   }
 
+  /**
+   * Record a finished run (from the always-playable demo match) onto the shared
+   * leaderboard. Kept deliberately simple: a run reports its headline streak,
+   * accuracy and points; we keep each player's BEST so the board is a hall of
+   * fame, not a last-game log. Same Player store the live loop and minting use.
+   */
+  submitRun(name: string, run: { streak: number; correct: number; played: number; points: number }) {
+    const p = this.player(name);
+    const streak = Math.max(0, Math.floor(run.streak || 0));
+    const correct = Math.max(0, Math.floor(run.correct || 0));
+    const played = Math.max(correct, Math.floor(run.played || 0));
+    const points = Math.max(0, Math.floor(run.points || 0));
+    p.played += played;
+    p.correct += correct;
+    p.streak = streak;                 // their latest run's streak (for minting)
+    p.best = Math.max(p.best, streak); // hall-of-fame best
+    p.points = Math.max(p.points, points);
+    p.lastPlayedAt = Date.now();
+    this.save();
+    this.emit("submitted", { player: name, streak, best: p.best, points: p.points });
+    return { name, streak, best: p.best, points: p.points };
+  }
+
+  /** Is a server wallet configured? Controls whether the UI offers minting. */
+  canMint() { return this.payer !== null; }
+
   /** Stamp a finished run on Solana. The leaderboard becomes verifiable. */
   async mint(name: string): Promise<{ tx: string; streak: number }> {
     const p = this.player(name);
@@ -167,16 +194,18 @@ export class StreakGame extends EventEmitter {
     return [...this.players.entries()]
       .map(([name, p]) => ({
         name, best: p.best, streak: p.streak, correct: p.correct, played: p.played,
+        points: p.points ?? 0,
         accuracy: p.played ? Math.round((p.correct / p.played) * 100) : 0,
         minted: (p.minted ?? []).slice(-1)[0] ?? null,
       }))
-      .sort((a, b) => b.best - a.best || b.accuracy - a.accuracy)
+      .sort((a, b) => b.best - a.best || b.points - a.points || b.accuracy - a.accuracy)
       .slice(0, 50);
   }
 
   player(name: string): Player {
     let p = this.players.get(name);
-    if (!p) { p = { name, streak: 0, best: 0, correct: 0, played: 0, lastPlayedAt: 0 }; this.players.set(name, p); }
+    if (!p) { p = { name, streak: 0, best: 0, correct: 0, played: 0, points: 0, lastPlayedAt: 0 }; this.players.set(name, p); }
+    if (p.points == null) p.points = 0; // migrate older saved records
     return p;
   }
   private save() {
